@@ -1,4 +1,4 @@
-# I Don't Know JS (IDKJS) - A Guide to JavaScript Quirks and Mysteries
+# I Don't Know JS (IDKJS) - A Guide to JavaScript, Its Quirks and Mysteries
 
 After learning and coding JavaScript for more than 5 years, I am still surprised by the quirks and mysteries of JavaScript. In this guide, I've created a simple walkthrough for someone who is just starting or revisiting JavaScript. I hope you will find this content helpful, and I'm open to suggestions, improvements, and technical discussions.
 
