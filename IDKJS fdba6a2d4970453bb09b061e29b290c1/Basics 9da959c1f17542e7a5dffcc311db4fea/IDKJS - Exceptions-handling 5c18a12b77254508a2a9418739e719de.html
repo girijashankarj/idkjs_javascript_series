@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Exceptions-handling</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5c18a12b-7725-4508-a2a9-418739e719de" class="page sans"><header><h1 class="page-title">IDKJS - Exceptions-handling</h1><p class="page-description"></p></header><div class="page-body"><h1 id="ffbc913e-35b7-4fb1-99a7-342c245635c4" class="">Exception Handling in JavaScript</h1><p id="739526c7-9e97-46f5-aacf-dfa4b9a3df21" class="">Exception handling is a crucial aspect of JavaScript programming that allows developers to gracefully handle and recover from errors or unexpected situations in their code. By effectively managing exceptions, you can improve the robustness and reliability of your JavaScript applications.</p><h2 id="c3ed9bda-333c-4a6c-bbc2-7891a96a92bb" class="">Table of Contents</h2><ol type="1" id="b3984a7f-8c13-40b5-bee7-647fb9a43448" class="numbered-list" start="1"><li><a href="about:blank#introduction-to-exception-handling">Introduction to Exception Handling</a></li></ol><ol type="1" id="40a5c922-d443-4a52-99e4-94d934141264" class="numbered-list" start="2"><li><a href="about:blank#the-trycatch-statement">The </a><a href="about:blank#the-trycatch-statement"><code>try...catch</code></a><a href="about:blank#the-trycatch-statement"> Statement</a></li></ol><ol type="1" id="1409aee0-1da8-4109-8e25-cdc888eec9fa" class="numbered-list" start="3"><li><a href="about:blank#error-objects">Error Objects</a></li></ol><ol type="1" id="d65f0575-e825-4c9b-b560-6749e15215d2" class="numbered-list" start="4"><li><a href="about:blank#custom-exceptions">Custom Exceptions</a></li></ol><ol type="1" id="8c6d4bb1-e671-4548-b0d9-099d9da15fba" class="numbered-list" start="5"><li><a href="about:blank#handling-asynchronous-errors">Handling Asynchronous Errors</a></li></ol><ol type="1" id="a33c480d-24e3-4910-bb30-b04e01d56104" class="numbered-list" start="6"><li><a href="about:blank#best-practices">Best Practices</a></li></ol><ol type="1" id="2d5a1f45-1d4b-4faa-9bfe-cf7b8fff2c0b" class="numbered-list" start="7"><li><a href="about:blank#common-error-types">Common Error Types</a></li></ol><ol type="1" id="9303f5d8-187a-42c5-a4ea-a6bdeca7ecad" class="numbered-list" start="8"><li><a href="about:blank#conclusion">Conclusion</a></li></ol><h2 id="1f02dd5e-ee7a-4570-b3a4-4448d2768500" class="">Introduction to Exception Handling</h2><p id="f73ae82c-419b-4876-bb33-fa8cc4660d47" class="">Exception handling is a programming technique used to detect, respond to, and manage errors or exceptional conditions that may occur during the execution of a program. In JavaScript, exceptions are thrown when an error occurs, and they can be caught and handled to prevent the program from crashing.</p><h2 id="3d46d49a-0d15-4189-b2df-8152af8899f3" class="">The <code>try...catch</code> Statement</h2><p id="f4284b13-266f-402b-9545-e5361ae15041" class="">The primary mechanism for handling exceptions in JavaScript is the <code>try...catch</code> statement. It allows you to wrap a block of code in a <code>try</code> block and specify one or more <code>catch</code> blocks to handle specific types of exceptions.</p><pre id="7f84bd8e-c492-4270-9dfa-9395d0cafdc3" class="code code-wrap"><code>try {    // Code that may throw an exception} catch (error) {    // Handle the exception} finally {    // Code which will always run, not used as frequently}</code></pre><h2 id="1a542eb3-847f-4511-9623-92db35a80f41" class="">Error Objects</h2><p id="9e9c7bcd-2801-4dd7-9a0e-84cdfbfa2766" class="">JavaScript provides a range of built-in error objects, each representing a specific type of error. These error objects inherit from the <code>Error</code> constructor and provide valuable information about the error, such as the error message and stack trace.</p><p id="4fcf69f3-32cf-4c9d-ba37-f1cd4f257d08" class="">Common built-in error objects include:</p><ol type="1" id="518e6f0f-67f4-4f08-b2df-972b0803e03f" class="numbered-list" start="1"><li><strong>Error</strong>: The generic error object.</li></ol><ol type="1" id="cf79a79e-7681-4fab-9518-18395e277875" class="numbered-list" start="2"><li><strong>SyntaxError</strong>: Occurs due to syntax errors in the code.</li></ol><ol type="1" id="d5507d19-c4fa-4d92-8224-b22c47fd58b8" class="numbered-list" start="3"><li><strong>ReferenceError</strong>: Happens when trying to reference an undefined variable.</li></ol><ol type="1" id="557ab583-b6eb-4895-a13f-8b5163f1df4e" class="numbered-list" start="4"><li><strong>TypeError</strong>: Occurs when performing an operation on an inappropriate value.</li></ol><ol type="1" id="6d09f4cb-01ce-40dd-bc16-33748a17a241" class="numbered-list" start="5"><li><strong>RangeError</strong>: Happens when using a value that is out of the range of accepted values.</li></ol><ol type="1" id="34752623-94d8-45bc-a0d8-b2ac27afaeab" class="numbered-list" start="6"><li><strong>URIError</strong>: Occurs during URI encoding/decoding if an invalid URI is encountered.</li></ol><ol type="1" id="6d9be0e4-24df-4bd1-8e00-6d9664c1461c" class="numbered-list" start="7"><li><strong>EvalError</strong>: Deprecated and rarely used.</li></ol><h3 id="f96a6b95-0369-46d7-b32b-607d29edc1b5" class="">Generic Syntax for catch block</h3><pre id="9f04e67c-865f-4ec6-ab4b-7a0f056dfd77" class="code code-wrap"><code>try {    // Code that may throw an error} catch (error) {    if (error instanceof SyntaxError) {        console.error(&#x27;Syntax error:&#x27;, error.message);    } else if (error instanceof ReferenceError) {        console.error(&#x27;Reference error:&#x27;, error.message);    } else if (error instanceof TypeError) {        console.error(&#x27;Type error:&#x27;, error.message);    } else if (error instanceof RangeError) {        console.error(&#x27;Range error:&#x27;, error.message);    } else if (error instanceof URIError) {        console.error(&#x27;URI error:&#x27;, error.message);    } else {        console.error(&#x27;An error occurred:&#x27;, error.message);    }}</code></pre><h3 id="b43eb4ab-3007-42f7-9c47-0ba1ad5c9508" class="">Example: Handling a Generic Error</h3><pre id="597c91ec-11e5-4488-8158-33401d6898a0" class="code code-wrap"><code>try {    // Code that might throw an error    const result = 10 / 0; // Attempting to divide by zero    console.log(&#x27;1. Result:&#x27;, result);} catch (error) {    // Handle the error    console.error(&#x27;1. An error occurred:&#x27;, error.message);}</code></pre><h3 id="07ff66aa-4835-4c09-9a02-dd593c693310" class="">Example: Handling a SyntaxError</h3><pre id="7f862caa-01d9-4197-a7a5-5b964815ab2f" class="code code-wrap"><code>try {    // SyntaxError: Missing closing parenthesis    console.log(&#x27;Hello, world&#x27;;} catch (error) {    console.error(&#x27;Caught an error:&#x27;, error.message);} finally {    console.log(&#x27;Cleanup code executed.&#x27;);}</code></pre><h3 id="7861f3ad-4808-4858-a54b-1c784826aeeb" class="">Example: Handling a ReferenceError</h3><pre id="d102a672-513d-4202-b0b1-f7678316d354" class="code code-wrap"><code>try {    // ReferenceError: Variable &#x27;x&#x27; is not defined    console.log(x);} catch (error) {    console.error(&#x27;Caught an error:&#x27;, error.message);} finally {    console.log(&#x27;Cleanup code executed.&#x27;);}</code></pre><h3 id="a59640ee-d514-4e7f-8622-bdbf2e22d730" class="">Example: Handling a TypeError</h3><pre id="7856182c-2e47-4e8a-aa72-604c7047ba1c" class="code code-wrap"><code>try {    // TypeError: Cannot read property &#x27;toUpperCase&#x27; of undefined    const result = undefined.toUpperCase();} catch (error) {    console.error(&#x27;Caught an error:&#x27;, error.message);} finally {    console.log(&#x27;Cleanup code executed.&#x27;);}</code></pre><h3 id="adb1d4f8-182c-4626-82ad-03e38e69bda3" class="">Example: Handling a RangeError (Invalid range or stack overflow)</h3><pre id="42c35a24-f9ab-466e-b5f1-f62b9954b9b5" class="code code-wrap"><code>try {    function recurse() {        recurse();    }    recurse(); // Causes a stack overflow} catch (error) {    console.error(&#x27;2. RangeError:&#x27;, error.message);}</code></pre><h3 id="7f19e716-0530-4b03-b238-8a0f1600e63b" class="">Example: Handling a URIError (URI-related functions)</h3><pre id="250770b4-e468-4644-87d3-237a8db96732" class="code code-wrap"><code>try {    decodeURIComponent(&#x27;%&#x27;); // Invalid URI encoding} catch (error) {    console.error(&#x27;2. URIError:&#x27;, error.message);}</code></pre><h3 id="df63fbf6-3464-407a-acb9-c0aace1ae38d" class="">Example: Handling a EvalError (Not commonly encountered)</h3><pre id="4f31e86c-c4bb-49f3-a56f-6e6b6b167aeb" class="code code-wrap"><code>try {    eval(&quot;console.log(&#x27;EvalError Example&#x27;)&quot;); // Example with eval (not commonly used)} catch (error) {    console.error(&#x27;2. EvalError:&#x27;, error.message);}</code></pre><h3 id="40647b9f-ebc2-42b3-9315-70040674bbda" class="">Example: Handling a InternalError (Not commonly encountered)</h3><pre id="f231fdbc-a9e9-4453-86af-2608a0301da3" class="code code-wrap"><code>try {    throw new InternalError(&#x27;Custom InternalError Example&#x27;);} catch (error) {    console.error(&#x27;2. InternalError:&#x27;, error.message);}</code></pre><h2 id="c56b4233-afc8-4e0d-8483-a656c2926979" class="">Custom Exceptions</h2><p id="f4dfecfc-85f9-43b5-8b02-f7aecdce1fde" class="">In addition to built-in error objects, developers can create custom exceptions by extending the <code>Error</code> constructor. This allows you to define application-specific error types and provide meaningful error messages.</p><pre id="469ce284-3f0b-401d-9519-de5dd857406b" class="code code-wrap"><code>class CustomError extends Error {    constructor(message) {        super(message);        this.name = &#x27;CustomError&#x27;;    }}try {    throw new CustomError(&#x27;This is a custom error.&#x27;);} catch (error) {    if (error instanceof CustomError) {        console.error(&#x27;Caught a custom error:&#x27;, error.message);    } else {        console.error(&#x27;Caught an error:&#x27;, error.message);    }} finally {    console.log(&#x27;Cleanup code executed.&#x27;);}</code></pre><h2 id="096063e6-7d34-4cfa-a251-b3f61a01b92f" class="">Handling Asynchronous Errors</h2><p id="0230e2b4-6fd8-4c75-b0ad-78d79f6c6ca5" class="">Handling exceptions in asynchronous code, such as Promises or callback functions, requires special consideration. You can use the <code>catch</code> method with Promises or the <code>try...catch</code> statement inside asynchronous functions to handle errors.</p><pre id="5e65b8b5-e038-4b33-a259-7058e4706502" class="code code-wrap"><code>// Handling asynchronous errors with Promisesfetch(&#x27;https://api.example.com/data&#x27;)    .then((response) =&gt; {        if (!response.ok) {            throw new Error(&#x27;Network response was not ok&#x27;);        }        return response.json();    })    .catch((error) =&gt; {        console.error(&#x27;Fetch error:&#x27;, error);    });</code></pre><h2 id="ba9b30d8-1c92-4e38-946b-a83c059d434c" class="">Best Practices</h2><p id="f46082ff-2ec1-42d3-92a6-2b889ac645e6" class="">Effective exception handling involves following best practices, including:</p><ul id="1ee8acc6-6631-4f96-8cc6-6bf4c1ca2697" class="bulleted-list"><li style="list-style-type:disc">Using specific error types for different exceptional conditions.</li></ul><ul id="51fe5448-e8b6-4aa7-9971-ef0bd6788315" class="bulleted-list"><li style="list-style-type:disc">Providing meaningful error messages.</li></ul><ul id="7818da44-08ce-4fa8-9e9a-678a0c1138b5" class="bulleted-list"><li style="list-style-type:disc">Logging errors for debugging and monitoring.</li></ul><ul id="9e74e89f-6d19-488d-bad2-d5491073bff1" class="bulleted-list"><li style="list-style-type:disc">Using <code>try...catch</code> judiciously to avoid suppressing errors unintentionally.</li></ul><h2 id="f1047aef-5e32-4357-b43d-72fbd6a02283" class="">Common Error Types</h2><p id="5d9ee49f-cacc-4df6-87a5-e7142d4225f4" class="">Understanding common error types and their causes is essential for efficient debugging and error handling. These include null/undefined errors, type errors, network errors, and more.</p><h2 id="694ce99d-ca7d-492e-8a51-6c2aeb82fb0d" class="">Conclusion</h2><p id="f8d837ee-9929-4b7c-93d7-88c79bba1c4c" class="">Exception handling is a critical skill for JavaScript developers. Properly handling errors and exceptions can improve the reliability of your applications and enhance the user experience by preventing crashes and providing helpful error messages.</p></div></article></body></html>

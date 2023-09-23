@@ -1,0 +1,832 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Promises</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2fa1d27b-749a-46c2-9eef-282a3c7533c6" class="page sans"><header><h1 class="page-title">IDKJS - Promises</h1><p class="page-description"></p></header><div class="page-body"><h1 id="f8513665-a76c-415a-9d13-7ca615207683" class="">Understanding Promises in JavaScript</h1><p id="dfa592bc-95ee-4577-888a-11c1ac24afa1" class="">Promises are a fundamental part of asynchronous programming in JavaScript. They provide a way to work with asynchronous operations in a more organized and manageable manner. In this guide, we’ll explore the concept of Promises, how to create and use them, and advanced Promise-related methods.</p><figure id="8f497b89-1651-4cff-ab7c-0aac68114efc" class="image"><a href="IDKJS%20-%20Promises%202fa1d27b749a46c29eef282a3c7533c6/Promises.png"><img style="width:1024px" src="IDKJS%20-%20Promises%202fa1d27b749a46c29eef282a3c7533c6/Promises.png"/></a></figure><p id="341f4e5d-6ca7-4f97-882e-927d8d3b9d53" class="">Visualize the Promise</p><h2 id="dc1f98c7-8022-48e4-9e0a-814bb5a2092c" class="">Table of Contents</h2><ol type="1" id="3912b250-0810-40ce-8b23-4b0757fa5591" class="numbered-list" start="1"><li><a href="about:blank#introduction-to-promises">Introduction to Promises</a></li></ol><ol type="1" id="c77edaee-bbcb-45e7-886b-68e67b1c2758" class="numbered-list" start="2"><li><a href="about:blank#creating-promises">Creating Promises</a></li></ol><ol type="1" id="2f669eea-0cb9-4fe0-b9d8-d930396ca135" class="numbered-list" start="3"><li><a href="about:blank#basic-promise-usage">Basic Promise Usage</a></li></ol><ol type="1" id="b523136f-1617-4689-b541-865c3578c69d" class="numbered-list" start="4"><li><a href="about:blank#promise-states">Promise States</a></li></ol><ol type="1" id="910a4add-0caf-469a-8a3f-2bfa26f7ff1d" class="numbered-list" start="5"><li><a href="about:blank#promise-methods">Promise Methods</a><ul id="6ab25b5b-946e-46f3-83dd-a22745090d4d" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promiseresolvevalue">Promise.resolve(value)</a> (Class Method)</li></ul><ul id="06b973df-6b8f-41ae-80e2-4ad5903a9c77" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promiserejectreason">Promise.reject(reason)</a> (Class Method)</li></ul><ul id="8a0b386d-4594-4c57-b74e-5233ca6b95fd" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promisealliterable">Promise.all(iterable)</a> (Static Method)</li></ul><ul id="6ebc3466-9097-4d79-8ae2-87fd91ef20c0" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promiseraceiterable">Promise.race(iterable)</a> (Static Method)</li></ul><ul id="e07281b5-865c-4e0e-a338-60b7875ea360" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promiseanyiterable">Promise.any(iterable)</a> (Static Method)</li></ul><ul id="581bc140-549b-4b0c-b359-3657b78f35b8" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#thenonfulfilled-onrejected">.then(onFulfilled, onRejected)</a> (Prototypal Method)</li></ul><ul id="d14040fd-b2e9-4ad1-95a7-339a45e2b907" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#catchonrejected">.catch(onRejected)</a> (Prototypal Method)</li></ul><ul id="afc71c00-63de-40cb-a0aa-16137b8484ba" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#finallyonfinally">.finally(onFinally)</a> (Prototypal Method)</li></ul><ul id="606ab063-c192-4cb1-9662-ab25e36edf84" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promiseallsettlediterable">Promise.allSettled(iterable)</a> (Static Method)</li></ul></li></ol><ol type="1" id="c18cf35e-73ba-47bd-a0d3-d9fc76e16533" class="numbered-list" start="6"><li><a href="about:blank#chaining-promises">Chaining Promises</a></li></ol><ol type="1" id="ade457c3-60b9-4814-81bd-35ed2ce27b12" class="numbered-list" start="7"><li><a href="about:blank#error-handling-with-promises">Error Handling with Promises</a></li></ol><ol type="1" id="a7a75ed7-0511-478e-90a5-6b9026d8dbc2" class="numbered-list" start="8"><li><a href="about:blank#promisifying-callbacks">Promisifying Callbacks</a></li></ol><ol type="1" id="b7dc4af7-119c-4f56-92a7-7931112c14db" class="numbered-list" start="9"><li><a href="about:blank#asyncawait-with-promises">Async/Await with Promises</a></li></ol><ol type="1" id="dd708857-8b5e-41cf-857b-84fe9f8f63ff" class="numbered-list" start="10"><li><a href="about:blank#real-world-examples">Real-World Examples</a></li></ol><ol type="1" id="7e3bc3c6-7c81-4ed7-b5e1-10f93a80717b" class="numbered-list" start="11"><li><a href="about:blank#conclusion">Conclusion</a></li></ol><h2 id="6bb824a1-694e-423c-87d0-fb71d5aec07b" class="">Introduction to Promises</h2><p id="49f11853-7293-4d79-9158-099c1b29920f" class="">A Promise in JavaScript represents a value that may not be available yet but will be at some point in the future. It’s a container for a future value, and it provides a standardized way to work with asynchronous code.</p><p id="aa6cfcb5-5705-4e20-a285-5661a33a58ad" class="">Promises are commonly used for tasks like fetching data from a server, reading files, making network requests, and other operations that may take time to complete.</p><h3 id="90d4097a-1015-48b2-9591-83d34e75cd0b" class="">Example: Creating a Simple Promise</h3><p id="22014fa5-6313-4f30-88d4-52eb611d21fa" class="">You can create a Promise using the <code>Promise</code> constructor. It takes a single function (commonly called the “executor function”) as an argument. This function receives two parameters: <code>resolve</code> and <code>reject</code>. <code>resolve</code> is used to fulfill the Promise with a value, and <code>reject</code> is used to reject the Promise with an error.</p><pre id="b781c636-6282-4399-940d-e80c3624721c" class="code code-wrap"><code>const myPromise = new Promise((resolve, reject) =&gt; {
+  // Simulate an asynchronous operation.
+  setTimeout(() =&gt; {
+    // Fulfill the Promise with a value.
+    resolve(&quot;Success&quot;);
+  }, 1000);
+});</code></pre><h2 id="452a0dfa-0682-402f-9f98-d51c57cbd6d0" class="">Basic Promise Usage</h2><p id="6435c4e6-30d5-407e-9bb5-e65e289509f2" class="">Once a Promise is created, you can use the <code>.then()</code> method to specify what should happen when the Promise is fulfilled (resolved) and the <code>.catch()</code> method to handle any errors.</p><h3 id="9c03f4d1-b160-4de3-8ae2-a337954ea990" class="">Example: Basic Promise Usage</h3><pre id="9dc4f137-7391-43a9-97b6-4c809ac1b8c2" class="code code-wrap"><code>myPromise
+  .then((result) =&gt; {
+    // Handle the fulfillment (success) of the Promise.
+    console.log(&quot;Promise resolved with result:&quot;, result);
+  })
+  .catch((error) =&gt; {
+    // Handle the rejection (error) of the Promise.
+    console.error(&quot;Promise rejected with error:&quot;, error);
+  });</code></pre><h2 id="822df9be-3109-45e8-92b9-4bf365314a88" class="">Promise States</h2><p id="da9be80f-42f3-4141-91eb-48c66ee3b28c" class="">Promises can be in one of three states:</p><ul id="11f62dac-6738-4e18-ab5e-5fdcbc1f8849" class="bulleted-list"><li style="list-style-type:disc"><strong>Pending:</strong> The initial state, neither fulfilled nor rejected.</li></ul><ul id="502798af-6ad6-41f5-8b6c-0958037764b5" class="bulleted-list"><li style="list-style-type:disc"><strong>Fulfilled:</strong> The Promise has been resolved with a value.</li></ul><ul id="db477b01-c2e6-47ed-84c0-4920821c21e9" class="bulleted-list"><li style="list-style-type:disc"><strong>Rejected:</strong> The Promise has been rejected with an error.</li></ul><h3 id="50a05e64-070c-46c8-a143-e8e5531a6cdd" class="">Example: Checking Promise State</h3><pre id="02bbb99d-a56d-40f3-ab57-dad7fa71d41b" class="code code-wrap"><code>switch (myPromise) {
+  case &quot;pending&quot;:
+    console.log(&quot;Promise is pending&quot;);
+    break;
+  case &quot;fulfilled&quot;:
+    console.log(&quot;Promise is fulfilled&quot;);
+    break;
+  case &quot;rejected&quot;:
+    console.log(&quot;Promise is rejected&quot;);
+    break;
+  default:
+    console.log(&quot;Unknown Promise state&quot;);
+}</code></pre><p id="80d066df-55a3-4516-b886-b6b8ebcedd5e" class="">Once a Promise transitions to either the fulfilled or rejected state, it becomes “settled.”</p><h2 id="fa7d69a8-83ec-46cf-a0e7-acd75cf20596" class="">Promise Methods</h2><h3 id="57475d0b-6dfb-4d16-aed3-49ddb08bc14c" class=""><code>Promise.resolve(value)</code> (Class Method)</h3><p id="ea68b999-4742-45d1-bac6-27a1a52b2037" class="">The <code>Promise.resolve</code> method creates a new Promise that is resolved with the given <code>value</code>. If the <code>value</code> is a thenable (an object with a <code>then</code> method, like another Promise), it adopts the state of that thenable.</p><h3 id="3f02bd29-d691-449b-8426-921d4832260b" class="">Example: Using <code>Promise.resolve</code></h3><pre id="a74ec33e-4bde-4b48-9d21-05db1616e1d7" class="code code-wrap"><code>const resolvedPromise = Promise.resolve(&quot;Resolved Value&quot;);
+resolvedPromise.then((value) =&gt; {
+  console.log(&quot;Resolved Promise:&quot;, value);
+});</code></pre><h3 id="db330b48-0b6c-4f56-a7f7-fc8f8c313804" class=""><code>Promise.reject(reason)</code> (Class Method)</h3><p id="8bb6fad2-6a22-4df3-a411-29d2477f2c7b" class="">The <code>Promise.reject</code> method creates a new Promise that is rejected with the given <code>reason</code>. The <code>reason</code> is typically an error message or an error object.</p><h3 id="5552147c-6f70-4f75-b0be-3356fa158b73" class="">Example: Using <code>Promise.reject</code></h3><pre id="bf3bd338-652a-48c1-a2b4-2d351216cebe" class="code code-wrap"><code>const rejectedPromise = Promise.reject(&quot;Rejected Reason&quot;);
+rejectedPromise.catch((reason) =&gt; {
+  console.error(&quot;Rejected Promise:&quot;, reason);
+});</code></pre><h3 id="843dd154-baf4-40fb-81e8-fc766a11a0b3" class=""><code>Promise.all(iterable)</code> (Static Method)</h3><p id="dd2f92b1-0447-484a-bff3-d3664ca2323c" class="">The <code>Promise.all</code> method takes an iterable (e.g., an array of Promises) and returns a new Promise that resolves when all Promises in the iterable have resolved successfully. If any Promise in the iterable is rejected, the resulting Promise is also rejected.</p><h3 id="d3e0cf50-ab36-4895-8c56-c5e9237f4624" class="">Example: Using <code>Promise.all</code></h3><pre id="19bc7316-2455-43fc-bbc4-3578db543141" class="code code-wrap"><code>const promise1 = Promise.resolve(&quot;One&quot;);
+const promise2 = Promise.resolve(&quot;Two&quot;);
+const promise3 = Promise.reject(&quot;Three&quot;);
+Promise.all([promise1, promise2, promise3])
+  .then((results) =&gt; {
+    // Handle the fulfillment of all Promises.
+    console.log(&quot;All Promises fulfilled:&quot;, results);
+  })
+  .catch((error) =&gt; {
+    // Handle the first rejection encountered.
+    console.error(&quot;At least one Promise rejected:&quot;, error);
+  });</code></pre><h3 id="7159e5dc-5e17-4f11-9415-9bde98c1e025" class=""><code>Promise.race(iterable)</code> (Static Method)</h3><p id="4de5fd34-1da6-4760-b729-03c4141edab7" class="">The <code>Promise.race</code> method returns a new Promise that resolves or rejects as soon as one of the Promises in the iterable resolves or rejects. It’s often used for implementing timeouts or racing multiple asynchronous operations.</p><h3 id="4dbb4709-b094-4f01-9072-3ea14f702cef" class="">Example: Using <code>Promise.race</code></h3><pre id="edf8938e-6707-4b57-a206-07ec3ca9e5fe" class="code code-wrap"><code>const promise1 = new Promise((resolve) =&gt; setTimeout(resolve, 1000, &quot;One&quot;));
+const promise2 = new Promise((resolve) =&gt; setTimeout(resolve, 500, &quot;Two&quot;));
+Promise.race([promise1, promise2]).then((result) =&gt; {
+  // Handle the result of the first settled Promise.
+  console.log(&quot;First Promise to settle:&quot;, result);
+});</code></pre><h3 id="b643f61c-c2a0-475b-83b2-caeca0365af4" class=""><code>Promise.any(iterable)</code> (Static Method)</h3><p id="3d50d30f-2e34-4aed-9662-2030add93295" class="">The <code>Promise.any</code> method returns a Promise that resolves when at least one Promise in the iterable resolves successfully. If all Promises are rejected, the resulting Promise is rejected with an <code>AggregateError</code> containing the rejection reasons.</p><h3 id="4a586059-6661-45ac-a086-2e7fdf570af6" class="">Example: Using <code>Promise.any</code></h3><pre id="1e12f60b-e0db-4ee1-9dc6-02cc7ad59251" class="code code-wrap"><code>const promise1 = Promise.reject(&quot;One&quot;);
+const promise2 = new Promise((resolve) =&gt; setTimeout(resolve, 500, &quot;Two&quot;));
+Promise.any([promise1, promise2]).then((result) =&gt; {
+  // Handle the result of the first fulfilled Promise.
+  console.log(&quot;First Promise to fulfill:&quot;, result);
+}); // Expected Output:// First Promise to fulfill: Two</code></pre><h3 id="3de34bd3-4100-4603-b413-5883b36a0b8c" class=""><code>.then(onFulfilled, onRejected)</code> (Prototypal Method)</h3><p id="f12351f7-f591-404a-ad2e-663037068f44" class="">The <code>then</code> method is used to specify what should happen when a Promise is fulfilled (successfully resolved) or rejected (encounters an error). It takes two callback functions: <code>onFulfilled</code> is called when the Promise is fulfilled, and <code>onRejected</code> is called when it’s rejected.</p><h3 id="aaaff49a-8c05-4c38-8b66-5112a65c120f" class="">Example: Using <code>.then</code> for Fulfillment and Rejection</h3><pre id="11e4f261-9568-407c-ab13-12903dc5a7b0" class="code code-wrap"><code>myPromise
+  .then((result) =&gt; {
+    // Handle the fulfillment (success) of the Promise.
+    console.log(&quot;Promise resolved with result:&quot;, result);
+  })
+  .catch((error) =&gt; {
+    // Handle the rejection (error) of the Promise.
+    console.error(&quot;Promise rejected with error:&quot;, error);
+  });</code></pre><h3 id="d936747c-6a72-4957-b3c4-608f30c7cda8" class=""><code>.catch(onRejected)</code> (Prototypal Method)</h3><p id="d6913fca-76cd-4d66-9d82-6cd7780f15be" class="">The <code>catch</code> method is a shorthand for handling Promise rejections. It’s equivalent to calling <code>.then(undefined, onRejected)</code> and is used to specify what should happen when a Promise is rejected.</p><h3 id="da31e375-b3c2-40e2-a98e-f316f5446397" class="">Example: Using <code>.catch</code></h3><pre id="2fd45b88-5da1-494b-9eec-d7db31fbd32d" class="code code-wrap"><code>myPromise
+  .then((result) =&gt; {
+    // Handle the fulfillment (success) of the Promise.
+    console.log(&quot;Promise resolved with result:&quot;, result);
+  })
+  .catch((error) =&gt; {
+    // Handle the rejection (error) of the Promise.
+    console.error(&quot;Promise rejected with error:&quot;, error);
+  });</code></pre><h3 id="e25a9e7a-f0d7-475c-9f5a-201224a796d0" class=""><code>.finally(onFinally)</code> (Prototypal Method)</h3><p id="dac44cf0-bc7d-4228-b22e-577a309b76ee" class="">The <code>finally</code> method allows you to specify a callback function (<code>onFinally</code>) that will be executed regardless of whether the Promise is fulfilled or rejected. It’s commonly used for cleanup or resource release operations.</p><h3 id="607019c7-80c9-4e32-9b8e-fbf1ee6110c3" class="">Example: Using <code>.finally</code></h3><pre id="e7d552ea-155a-4993-978e-e1fe14dc7b3a" class="code code-wrap"><code>myPromise
+  .then((result) =&gt; {
+    // Handle the fulfillment (success) of the Promise.
+    console.log(&quot;Promise resolved with result:&quot;, result);
+  })
+  .catch((error) =&gt; {
+    // Handle the rejection (error) of the Promise.
+    console.error(&quot;Promise rejected with error:&quot;, error);
+  })
+  .finally(() =&gt; {
+    // Perform cleanup or finalization.
+    console.log(&quot;Promise finally block executed&quot;);
+  });</code></pre><h3 id="9bb57f86-9e9b-4576-b99c-8ed6f4918c68" class=""><code>Promise.allSettled(iterable)</code> (Static Method)</h3><p id="8e7267fd-0e04-4f2f-9680-2b6e6671973b" class="">The <code>Promise.allSettled</code> method returns a Promise that resolves to an array of objects representing the outcomes of all Promises in the given iterable. Each object has a <code>status</code> property that can be either <code>&quot;fulfilled&quot;</code> or <code>&quot;rejected&quot;</code> and a <code>value</code> property that holds the fulfillment value or a <code>reason</code> property that holds the rejection reason.</p><h3 id="0ce7724c-efa1-4d90-8888-75983f34238b" class="">Example: Using <code>Promise.allSettled</code></h3><pre id="4172b760-35ad-4c7b-98a9-1d68b27e9f42" class="code code-wrap"><code>const promise1 = Promise.resolve(&quot;One&quot;);
+const promise2 = Promise.reject(&quot;Two&quot;);
+const promise3 = Promise.resolve(&quot;Three&quot;);
+Promise.allSettled([promise1, promise2, promise3]).then((results) =&gt; {
+  // Handle the outcomes of all Promises.
+  console.log(&quot;All Promises settled:&quot;, results);
+});</code></pre><h2 id="a27f252a-32ca-4dc2-b3e2-98f3ba77e2d4" class="">Chaining Promises</h2><p id="f7c1c669-93e7-419d-af81-9b3a79a5b963" class="">Promises can be chained together using multiple <code>.then()</code> calls, allowing you to perform a series of asynchronous operations in sequence.</p><h3 id="2fbdda3c-3e4e-4904-b788-7a8ce924ede5" class="">Example: Chaining Promises</h3><pre id="aaacc50a-2c8b-4537-a36f-893e558731d8" class="code code-wrap"><code>// Definition:
+// Chain Promises to perform sequential asynchronous operations.
+// Purpose: Demonstrates how to chain Promises for sequential execution.
+// Constraints: None.
+fetch(&quot;https://api.example.com/data&quot;)
+  .then((response) =&gt; {
+    // Check the response status.
+    if (!response.ok) {
+      throw new Error(&quot;Network response was not ok&quot;);
+    }
+    // Parse the response body as JSON.
+    return response.json();
+  })
+  .then((data) =&gt; {
+    // Handle the parsed data.
+    console.log(&quot;Data fetched:&quot;, data);
+  })
+  .catch((error) =&gt; {
+    // Handle errors in any step of the chain.
+    console.error(&quot;Fetch error:&quot;, error);
+  });</code></pre><h2 id="b5275307-b22f-47d0-80ba-22eef9789d95" class="">Error Handling with Promises</h2><p id="08fc7663-b8b7-47fa-b430-be175307a364" class="">Use <code>.catch()</code> to handle errors that occur in any part of the Promise chain.</p><h3 id="be2ea2fe-fd1b-49a9-b668-e9a4e1f9ca5e" class="">Example: Error Handling with Promises</h3><pre id="ce970246-9b0e-45bc-b567-42234203ae1b" class="code code-wrap"><code>// Definition:
+// Handle errors in a Promise chain using .catch().
+// Purpose: Demonstrates how to handle errors in a Promise chain.
+// Constraints: None.
+myPromise
+  .then((result) =&gt; {
+    // Handle the fulfillment (success) of the Promise.
+    console.log(&quot;Promise resolved with result:&quot;, result);
+  })
+  .catch((error) =&gt; {
+    // Handle the rejection (error) of the Promise.
+    console.error(&quot;Promise rejected with error:&quot;, error);
+  });</code></pre><h2 id="96a1ca50-050a-4d66-933b-0b60de5198ae" class="">Promisifying Callbacks</h2><p id="cc2a1f41-9130-4be0-bcc7-dca2751b4393" class="">You can promisify functions that use the traditional callback pattern to work with Promises. This allows you to use <code>.then()</code> and <code>.catch()</code> with callback-based functions.</p><h3 id="fd478d78-9c5f-4a53-b10e-bb8fedb33cfe" class="">Example: Promisifying Callbacks</h3><pre id="e2034bef-8f4e-46d6-ab91-7539e0abd8cc" class="code code-wrap"><code>const fs = require(&quot;fs&quot;);
+const util = require(&quot;util&quot;);
+
+// Promisify the fs.readFile function.
+const readFilePromise = util.promisify(fs.readFile);
+
+// Definition:
+// Promisify a callback-based function.
+// Purpose: Demonstrates how to promisify a callback function.
+// Constraints: Assumes the file exists.
+readFilePromise(&quot;file.txt&quot;, &quot;utf-8&quot;)
+  .then((data) =&gt; {
+    // Handle the data read from the file.
+    console.log(&quot;File content:&quot;, data);
+  })
+  .catch((error) =&gt; {
+    // Handle file read errors.
+    console.error(&quot;File read error:&quot;, error);
+  });</code></pre><h2 id="27e3f776-bbfa-4aa2-b26d-1149eba7f4c3" class="">Async/Await with Promises</h2><p id="047f1710-7c26-47a2-a582-b629a940b192" class="">Async/await is a more recent addition to JavaScript that simplifies working with Promises. It allows you to write asynchronous code in a more synchronous-looking style.</p><h3 id="9df74802-9521-45bc-82c1-079edad9c241" class="">Example: Using Async/Await with Promises</h3><pre id="e6c0e0db-8b37-4e1d-a57a-e3b19bee4a1f" class="code code-wrap"><code>// Definition:
+// Use async/await to simplify Promise-based code.
+// Purpose: Demonstrates how to use async/await with Promises.
+// Constraints: None.
+async function fetchData() {
+  try {
+    const response = await fetch(&quot;https://api.example.com/data&quot;);
+    if (!response.ok) {
+      throw new Error(&quot;Network response was not ok&quot;);
+    }
+    const data = await response.json();
+    console.log(&quot;Data fetched:&quot;, data);
+  } catch (error) {
+    // Handle errors within the async function.
+    console.error(&quot;Fetch error:&quot;, error);
+  }
+}
+
+// Call the async function.
+fetchData();</code></pre><h2 id="0feb1aee-7788-4e87-8741-d5d95395a71a" class="">Real-World Examples</h2><p id="171b01e4-2d29-4c56-a2fa-8201d19733c9" class="">Promises are widely used in various scenarios, including web development, server-side scripting, and more. Here are a few real-world examples:</p><ul id="b3ef4eb4-923e-4845-a52b-eb1c58feb4f0" class="bulleted-list"><li style="list-style-type:disc"><strong>Fetching Data from an API</strong>: Making HTTP requests and handling the response data.</li></ul><ul id="93036105-3890-42a6-9ff2-46b308386ec7" class="bulleted-list"><li style="list-style-type:disc"><strong>Reading and Writing Files</strong>: Performing file I/O operations asynchronously, common in Node.js.</li></ul><ul id="477c83f6-c967-45a6-aee0-595480458323" class="bulleted-list"><li style="list-style-type:disc"><strong>Database Operations</strong>: Interacting with databases asynchronously, such as reading and writing records.</li></ul><ul id="035c0949-2249-4760-9bfd-06b6a647db81" class="bulleted-list"><li style="list-style-type:disc"><strong>Parallel Execution</strong>: Running multiple asynchronous tasks in parallel and waiting for all of them to complete.</li></ul><ul id="c966638c-79fc-40aa-9175-8e36805a30f4" class="bulleted-list"><li style="list-style-type:disc"><strong>UI Updates</strong>: Updating the user interface asynchronously in web applications.</li></ul><h2 id="a5ee722b-7809-4fd4-813a-93d4da7f9309" class="">Conclusion</h2><p id="3c8baa28-56bf-4c02-b9d4-5bb44a673269" class="">Promises are a powerful tool for managing asynchronous operations in JavaScript. They provide a clean and structured way to work with asynchronous code, making it easier to handle errors, chain operations, and parallelize tasks. Whether you’re working on a web application or server-side code, understanding Promises is essential for building efficient and responsive applications.</p></div></article></body></html>

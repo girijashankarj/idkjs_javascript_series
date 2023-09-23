@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Collections</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ba507859-6a39-42a5-823e-f4f50bdbc00e" class="page sans"><header><h1 class="page-title">IDKJS - Collections</h1><p class="page-description"></p></header><div class="page-body"><h1 id="2cc11765-ff7e-4cb9-bfc6-95bc01a609fb" class="">Collections in JavaScript: Map and Set</h1><h2 id="76437ff0-ee82-420b-a272-8a47a93c4303" class="">Introduction to Collections</h2><p id="94894744-ba5c-445f-aa3c-472c7dde7202" class="">Collections are data structures for storing and managing multiple values or items.</p><h2 id="7865a5d8-4350-4050-8225-21da17e024d3" class="">Map</h2><ul id="223ff170-0c87-4cc4-ae5c-2af6dbb041b8" class="bulleted-list"><li style="list-style-type:disc"><strong>Reference Link: </strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"><strong>MDN Web Docs - Map</strong></a></li></ul><ul id="0457e979-b400-42a3-8c84-7f1871ca837e" class="bulleted-list"><li style="list-style-type:disc">A Map is a collection of key-value pairs.</li></ul><ul id="8ffd7c13-0131-4df9-8a36-9ab27a59af1c" class="bulleted-list"><li style="list-style-type:disc">It allows you to store data with unique keys.</li></ul><ul id="e5bff644-7089-4e0d-b3ce-cf098ca07890" class="bulleted-list"><li style="list-style-type:disc">Use a Map when you need to associate values with specific keys.</li></ul><pre id="61845f20-1da0-488b-8b6a-72982bf3fd58" class="code code-wrap"><code>const myMap = new Map();</code></pre><h3 id="10c1cd32-d479-48e4-84d4-bf6cdeaa9342" class="">Adding data to the Map</h3><pre id="d465e76a-9886-4cf7-91d8-d933dc1d1908" class="code code-wrap"><code>myMap.set(&#x27;name&#x27;, &#x27;John&#x27;);myMap.set(&#x27;age&#x27;, 30);myMap.set(&#x27;city&#x27;, &#x27;New York&#x27;);</code></pre><h3 id="d2db010e-a0e8-4571-a3e9-c6ed68d72bb0" class="">Accessing data from the Map</h3><pre id="cb557369-050f-4d75-ab95-b4bdbe6f4310" class="code code-wrap"><code>console.log(myMap.get(&#x27;name&#x27;)); // Output: John</code></pre><h3 id="d6370a6f-0afb-4441-a67b-e66009ccc077" class="">Iterating over the Map</h3><pre id="efb50299-dcba-4edc-bb3e-9f9b9c186021" class="code code-wrap"><code>myMap.forEach((value, key) =&gt; {    console.log(`${key}: ${value}`);});</code></pre><h3 id="ad27eddb-9f58-445c-b345-85e530ccfce1" class="">Mutating data in the Map</h3><pre id="f682ac11-e8a8-4b09-95ab-3bb2eead4b91" class="code code-wrap"><code>myMap.set(&#x27;age&#x27;, 31); // Updating the age</code></pre><h3 id="888fcc6d-bd8d-499e-8f63-fefcfb9df6e0" class="">Deleting data from the Map</h3><pre id="ead3dc9b-0888-43eb-9b7f-d07fa64504b2" class="code code-wrap"><code>myMap.delete(&#x27;city&#x27;);</code></pre><h3 id="c6e64bcc-7940-46a6-95fa-55f4c4053dc6" class="">Clearing the Map</h3><pre id="f0022ffc-e729-4c7a-b8a3-7c1ca00683b7" class="code code-wrap"><code>myMap.clear();</code></pre><h3 id="4f383263-d10e-4d41-bef3-30ffc2044d1b" class="">Other Map Methods and Operations</h3><ul id="307e5550-2d62-4cb4-b39a-86aad3ed5628" class="bulleted-list"><li style="list-style-type:disc"><strong>Size of the Map:</strong><pre id="1d2b44ce-c45c-4310-9904-d6da677e66d3" class="code code-wrap"><code>console.log(myMap.size); // Returns the number of key-value pairs in the Map</code></pre></li></ul><ul id="46adbf34-7b27-4c5c-869a-e97d433cb54a" class="bulleted-list"><li style="list-style-type:disc"><strong>Checking if a key exists:</strong><pre id="aab9087d-cc2e-48eb-bca1-44088aaa0fe2" class="code code-wrap"><code>console.log(myMap.has(&#x27;name&#x27;)); // Returns true if the key &#x27;name&#x27; exists in the Map</code></pre></li></ul><ul id="adc58bfc-71e7-4e43-94bb-6a93a0389f5a" class="bulleted-list"><li style="list-style-type:disc"><strong>Getting all keys and values:</strong><pre id="b048068b-8843-4f80-9a17-e1a45ec5d4e4" class="code code-wrap"><code>const keys = Array.from(myMap.keys()); // Get all keys as an arrayconst values = Array.from(myMap.values()); // Get all values as an array</code></pre></li></ul><ul id="f19e56b5-7a3e-48ff-9057-2ad3d64c18d9" class="bulleted-list"><li style="list-style-type:disc"><strong>Converting Map to Array of Arrays:</strong><pre id="135f5fd5-fa04-4e82-af2f-dcd14896499e" class="code code-wrap"><code>const arrayOfKeyValuePairs = Array.from(myMap.entries()); // Converts the Map to an array of key-value pairs</code></pre></li></ul><h2 id="77e8d20f-2fc5-4175-8971-87c5335a2831" class="">Set</h2><ul id="2f1356d4-eca8-48d9-9488-5b4eea5a64c0" class="bulleted-list"><li style="list-style-type:disc"><strong>Reference Link: </strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"><strong>MDN Web Docs - Set</strong></a></li></ul><ul id="3255deaf-b019-42e0-a814-e928c804c98e" class="bulleted-list"><li style="list-style-type:disc">A Set is a collection of unique values.</li></ul><ul id="8e145bd7-c31f-46c7-a277-815f93c675a6" class="bulleted-list"><li style="list-style-type:disc">It does not allow duplicate entries.</li></ul><ul id="2dd34601-7f33-4a71-97c5-9eba6ff12dfb" class="bulleted-list"><li style="list-style-type:disc">Use a Set when you need to maintain a list of unique items.</li></ul><pre id="5609be31-c11d-417d-b547-c704d3ad9eb5" class="code code-wrap"><code>const mySet = new Set();</code></pre><h3 id="553987af-be7c-4083-be53-06780fc26001" class="">Adding data to the Set</h3><pre id="0722c798-590d-478b-b958-23222ddf866b" class="code code-wrap"><code>mySet.add(&#x27;apple&#x27;);mySet.add(&#x27;banana&#x27;);mySet.add(&#x27;cherry&#x27;);</code></pre><h3 id="b8b1578c-a908-476d-bb1d-cec41f63dc84" class="">Accessing data from the Set</h3><pre id="11e541d3-ad60-4c8e-a35e-23c41e4491f1" class="code code-wrap"><code>console.log(mySet.has(&#x27;banana&#x27;)); // Output: true</code></pre><h3 id="fd6f8353-6f49-4778-bfbc-892a214e503d" class="">Iterating over the Set</h3><pre id="1c1e1402-f735-4388-8e46-539e244dac13" class="code code-wrap"><code>mySet.forEach((value) =&gt; {    console.log(value);});</code></pre><h3 id="65267a83-e812-4600-ae86-f77ae1956899" class="">Mutating data in the Set (No direct update, need to remove and add again)</h3><pre id="3130fb1f-c978-4892-a108-598f561696df" class="code code-wrap"><code>mySet.delete(&#x27;apple&#x27;); // Removing &#x27;apple&#x27;mySet.add(&#x27;date&#x27;); // Adding &#x27;date&#x27;</code></pre><h3 id="7a2b714d-9052-4469-8aef-5871f84a6d31" class="">Clearing the Set</h3><pre id="4c3a79f8-1805-44c1-862a-2859ddbd1dd3" class="code code-wrap"><code>mySet.clear();</code></pre><h3 id="25150134-4ee1-410d-a635-1096581359f1" class="">Other Set Methods and Operations</h3><ul id="b164b166-581d-49c4-82a7-e191c7a8687e" class="bulleted-list"><li style="list-style-type:disc"><strong>Size of the Set:</strong><pre id="6ba828f2-b253-4bf0-bfdf-88f12f853919" class="code code-wrap"><code>console.log(mySet.size); // Returns the number of elements in the Set</code></pre></li></ul><ul id="43961005-999b-4118-883b-8b8f01d2af70" class="bulleted-list"><li style="list-style-type:disc"><strong>Checking if an element exists:</strong><pre id="6579f8f9-2167-4c49-87c7-ad9e8c24d73c" class="code code-wrap"><code>console.log(mySet.has(&#x27;banana&#x27;)); // Returns true if &#x27;banana&#x27; exists in the Set</code></pre></li></ul><ul id="6a58e553-bac0-427b-86bd-ae8a65957314" class="bulleted-list"><li style="list-style-type:disc"><strong>Converting Set to Array:</strong><pre id="7e9ddf33-2084-4928-9ec6-3d7bfe5ec194" class="code code-wrap"><code>const arrayFromSet = Array.from(mySet); // Converts the Set to an array</code></pre></li></ul><ul id="cb8b9905-0c7b-48b4-a90a-4ef6b4726e01" class="bulleted-list"><li style="list-style-type:disc"><strong>Set Intersection, Difference, and Union:</strong><p id="4cb6943e-1172-4df3-bb8a-8fc872d01435" class="">Set operations can be performed using JavaScript functions. For example, to find the intersection, difference, or union of two sets, you can use custom functions:</p><pre id="6e42c073-a436-4df3-82bb-acc0d6805fcb" class="code code-wrap"><code>function intersection(setA, setB) {
+  return new Set([...setA].filter((x) =&gt; setB.has(x)));
+}
+function difference(setA, setB) {
+  return new Set([...setA].filter((x) =&gt; !setB.has(x)));
+}
+function union(setA, setB) {
+  return new Set([...setA, ...setB]);
+}</code></pre></li></ul></div></article></body></html>

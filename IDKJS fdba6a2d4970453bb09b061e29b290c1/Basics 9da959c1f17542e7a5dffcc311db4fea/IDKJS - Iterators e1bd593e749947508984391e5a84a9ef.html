@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Iterators</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e1bd593e-7499-4750-8984-391e5a84a9ef" class="page sans"><header><h1 class="page-title">IDKJS - Iterators</h1><p class="page-description"></p></header><div class="page-body"><h1 id="722cf653-c55e-4a69-8a1a-a1f725733646" class="">Iterator Types in JavaScript</h1><ol type="1" id="44586d30-38ae-4d66-9d6c-e5a4ef721207" class="numbered-list" start="1"><li><a href="about:blank#traditional-for-loop">Traditional for Loop</a></li></ol><ol type="1" id="9b81cba5-c3a9-4977-9f5b-eaee74a47282" class="numbered-list" start="2"><li><a href="about:blank#for-of-loop">for…of Loop</a></li></ol><ol type="1" id="7a2de1cf-ca87-4bb1-a8a1-8cc876af04a6" class="numbered-list" start="3"><li><a href="about:blank#for-in-loop">for…in Loop</a></li></ol><ol type="1" id="161682ae-8b32-4abc-b7c6-14992a4c2ed5" class="numbered-list" start="4"><li><a href="about:blank#foreach-method">forEach() Method</a></li></ol><ol type="1" id="b8dcc459-3f90-4c5c-8349-e106d87b77b6" class="numbered-list" start="5"><li><a href="about:blank#map-iterator">Map Iterator</a></li></ol><ol type="1" id="d10406f0-6dab-490f-a6b6-d02990461093" class="numbered-list" start="6"><li><a href="about:blank#set-iterator">Set Iterator</a></li></ol><ol type="1" id="4adeaef0-bada-4877-8aa2-0ced9402ddfd" class="numbered-list" start="7"><li><a href="about:blank#generator-functions">Generator Functions</a></li></ol><ol type="1" id="46ad3f9f-8385-4a25-96ce-3a64d758a9d9" class="numbered-list" start="8"><li><a href="about:blank#object-class-iterators">Object Class Iterators</a></li></ol><ol type="1" id="5f2ae11d-6f40-4b20-9a23-ba92375cf20d" class="numbered-list" start="9"><li><a href="about:blank#async-iterators">Async Iterators</a></li></ol><ol type="1" id="79273786-c652-445e-aac8-58cf7c089997" class="numbered-list" start="10"><li><a href="about:blank#conclusion">Conclusion</a></li></ol><hr id="8e36fc96-3df8-41b0-a9c3-12aeeddeaac5"/><h2 id="fb1ff7ab-33da-4f57-b5b8-bf3da8a6b827" class="">Traditional for Loop</h2><ul id="57eeb16f-e11d-467a-bc0f-547c74e929f7" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Traditional for loop allows iteration with control over the starting point, ending condition, and increment. Basic iteration mechanism in JavaScript.</li></ul><ul id="453bc54e-394b-4086-ad7c-7cad6f41bb0f" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Requires explicit control variables and conditions.</li></ul><ul id="1323f8b3-e464-48f7-b345-6fe51be1aed7" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate over arrays and other iterable data structures.</li></ul><pre id="318ef57d-8e83-4dfb-b928-bcad72fcb2ac" class="code code-wrap"><code>const array = [1, 2, 3];for (let i = 0; i &lt; array.length; i++) {    console.log(array[i]); // Output: Iteration through array elements.}</code></pre><h2 id="0d49e4b3-72b5-4501-bcfa-ef1c082ade0a" class="">for…of Loop</h2><ul id="51a6fea0-9133-4934-b788-a0587e12e3cf" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> The for…of loop simplifies iteration over iterable objects like arrays, strings, maps, sets, etc., without the need for indexing.</li></ul><ul id="a5cb699d-e025-45f8-a078-b137faaf4c1f" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Limited to iterable objects and does not provide access to indices.</li></ul><ul id="1ab90851-19e8-48d1-8c64-17132169c81b" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through iterable objects with a concise syntax.</li></ul><pre id="2abf6833-ba7c-4b5f-9728-82d0907aaac4" class="code code-wrap"><code>const iterable = [1, 2, 3];for (const item of iterable) {    console.log(item); // Output: Iteration through iterable elements.}</code></pre><h2 id="7029cedd-91e4-456c-b19c-3b4a85d1e05e" class="">for…in Loop</h2><ul id="b325f0c2-180b-4859-b841-9cd4751d2b17" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> The for…in loop is used to iterate over the properties of an object. It is not recommended for iterating over arrays.</li></ul><ul id="a6dd2c02-b4f9-422b-98d7-56ba70c7a260" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> May iterate over inherited properties, no guarantee of iteration order.</li></ul><ul id="78344268-c06c-46ef-9888-5a7f6f515f1e" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through object properties.</li></ul><pre id="284a26e3-41ae-4be4-bc26-c8bf8da1190e" class="code code-wrap"><code>const object = { key1: &#x27;value1&#x27;, key2: &#x27;value2&#x27; };for (const key in object) {    if (object.hasOwnProperty(key)) {        console.log(key, object[key]); // Output: Iteration through object properties (filtered by hasOwnProperty).    }}</code></pre><h2 id="bda3e841-ecff-48d1-9eb8-2d881815339b" class="">forEach() Method</h2><ul id="dbe61441-c14f-4f09-89c5-feb93c6e6f37" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> The forEach() method is available on arrays and applies a provided function to each array element.</li></ul><ul id="3e292ece-459c-47ad-8375-63c63280230b" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Specific to arrays, no direct access to indices.</li></ul><ul id="a8f6dacc-aa0e-448f-bc0d-28243d3164af" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through array elements and perform an action on each element.</li></ul><pre id="d0049e0f-5ec9-417b-bd3a-68e1ce90c4b7" class="code code-wrap"><code>const array2 = [1, 2, 3];array2.forEach(function (element) {    console.log(element); // Output: Action performed on each array element.});</code></pre><h2 id="64d1ea41-5919-4cde-a075-789de8b363a6" class="">Map Iterator</h2><ul id="4125ee57-12d8-44b8-8730-9a5cf344bd83" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Map data structure provides iterators (entries, keys, and values) for key-value pairs, keys, and values.</li></ul><ul id="1dbdcf4d-ee14-436b-9d23-aced5b7648ae" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Works with Map data structure specifically.</li></ul><ul id="ed5bfcf6-a1e7-4ed8-b343-5c0d6245cff7" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through key-value pairs, keys, or values in a Map.</li></ul><pre id="698e74d3-9d3e-47aa-ada0-dfd11d15d718" class="code code-wrap"><code>const map = new Map([    [&#x27;key1&#x27;, &#x27;value1&#x27;],    [&#x27;key2&#x27;, &#x27;value2&#x27;],]);for (const [key, value] of map.entries()) {    console.log(key, value); // Output: Iteration through Map key-value pairs.}</code></pre><h2 id="9d653be5-010a-4d64-a7ca-2d65c3059ea3" class="">Set Iterator</h2><ul id="54a7c12d-959b-4b75-9294-0a458a886a1f" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Set data structure provides an iterator (values()) to iterate through unique values.</li></ul><ul id="b3667489-855f-48dd-b78d-da15ee7ce285" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Works with Set data structure specifically.</li></ul><ul id="011403f2-009b-45fb-b918-c1a2ea690ab8" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through unique values in a Set.</li></ul><pre id="5469f0e4-9cf1-43ac-97cb-f7323efe99b8" class="code code-wrap"><code>const set = new Set([1, 2, 3]);for (const value of set.values()) {    console.log(value); // Output: Iteration through Set values.}</code></pre><h2 id="2d5056b8-84bb-4c0c-9543-4bc33381542d" class="">Generator Functions</h2><ul id="23ed9732-20de-43c0-90d1-7472fc1e0d81" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Generator functions allow custom iterators using the function* syntax and yield keyword.</li></ul><ul id="864bf4ba-ee94-48f9-9d36-08299e9f8d3b" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Customizable iteration logic, manual control of iteration.</li></ul><ul id="f9eed72e-1ae7-4826-9c44-04b27b63b694" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Create custom iterators with pausable/resumable behavior.</li></ul><pre id="fac5aa07-fed8-47a9-8f90-1794ad6afb88" class="code code-wrap"><code>function* customIterator() {    yield 1;    yield 2;    yield 3;}const iterator = customIterator();for (const value of iterator) {    console.log(value); // Output: Custom iteration logic executed with yield.}</code></pre><h2 id="11f6ab1a-a745-44df-aec2-42e4c614f890" class="">Object Class Iterators</h2><h3 id="ef54ef41-1996-44a8-b740-e0588804ad58" class="">Iterating through Object keys with Object.keys()</h3><ul id="17694821-cfb6-4726-bbd3-62bbcd03ed1b" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Object.keys() returns an array of a given object’s own enumerable property names.</li></ul><ul id="354d2e1c-c882-4260-a3bc-9d941b40c722" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Limited to iterating through object property keys.</li></ul><ul id="a9bbcf92-7e26-4de3-b512-0898b65120ce" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through object property keys.</li></ul><pre id="6ec928d7-6daf-4fe0-bc11-0b1549b6c5d5" class="code code-wrap"><code>const sampleObject = { a: 1, b: 2, c: 3 };const objectKeys = Object.keys(sampleObject);for (const key of objectKeys) {    console.log(`Key: ${key}, Value: ${sampleObject[key]}`);}</code></pre><h3 id="4bbf9f5a-f9d3-44e1-aabf-9507d2c958d8" class="">Iterating through Object values with Object.values()</h3><ul id="22376eac-b1e7-47c0-ab5b-db98b04a508d" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Object.values() returns an array of a given object’s own enumerable property values.</li></ul><ul id="da900c84-1d0e-482e-bff2-ed70bc684694" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Limited to iterating through object property values.</li></ul><ul id="57792446-5566-406a-8632-1f0dacda3cb1" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through object property values.</li></ul><pre id="eb406e23-632b-47ea-af50-23612e81d26d" class="code code-wrap"><code>const objectValues = Object.values(sampleObject);for (const value of objectValues) {    console.log(`Value: ${value}`);}</code></pre><h3 id="c20ba456-2ccc-40cb-a125-c0742985e515" class="">Iterating through Object entries with Object.entries()</h3><ul id="eb3ab0c7-76bc-4a6d-bd8e-ee0657cf7a1c" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Object.entries() returns an array of a given object’s own enumerable property [key, value] pairs.</li></ul><ul id="960574bf-4956-49d4-a00d-036c7f2c05f1" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Iterates through key-value pairs as arrays.</li></ul><ul id="9c677073-16ea-4003-849c-b237e7de7419" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate through object property key-value pairs.</li></ul><pre id="f25c2eb6-aba0-4927-910a-7295e4bbce03" class="code code-wrap"><code>const objectEntries = Object.entries(sampleObject);for (const [key, value] of objectEntries) {    console.log(`Key: ${key}, Value: ${value}`);}</code></pre><h2 id="51eae8b3-710d-4d2c-9a5b-942f0095dd83" class="">Later On</h2><ul id="0f72e1c5-a9cc-468c-a151-a397d1b6fe4f" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Async iterators allow asynchronous iteration using the for await…of loop.</li></ul><ul id="69e91947-c15f-40b5-b5ec-71014089e84e" class="bulleted-list"><li style="list-style-type:disc"><strong>Constraints:</strong> Used for asynchronous data sources, requires async/await syntax.</li></ul><ul id="50a52daa-af67-401a-b909-28f7a9129b3d" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose:</strong> Iterate asynchronously through asynchronous data sources.</li></ul><pre id="52e7012c-71a5-404d-8ea8-64e33f84547e" class="code code-wrap"><code>const asyncIterable = createAsyncIterable();(async () =&gt; {    for await (const item of asyncIterable) {        console.log(item);    }})();async function* createAsyncIterable() {    yield Promise.resolve(1);    yield Promise.resolve(2);    yield Promise.resolve(3);}</code></pre><hr id="4ed3bd16-a406-42f1-9e95-4ab3977047d5"/><h2 id="ed3e5e2a-a1d7-4e01-b94f-a3d3a341eb52" class="">Conclusion</h2><p id="a07eddeb-1dfd-4700-9b8d-11c0c772ee09" class="">Mastering different iterator types in JavaScript is crucial for effective data traversal and manipulation. Each iterator type has its use cases and benefits, allowing you to choose the most suitable one for your specific needs.</p></div></article></body></html>

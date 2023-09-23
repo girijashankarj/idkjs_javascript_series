@@ -1,0 +1,751 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Types of Asynchronous Operations</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3d2badb9-d5c6-43c0-8c91-58d122f61a43" class="page sans"><header><h1 class="page-title">IDKJS - Types of Asynchronous Operations</h1><p class="page-description"></p></header><div class="page-body"><h1 id="36efaf7b-f003-415c-a6f5-41400b8193dd" class="">Asynchronous Operations in JavaScript</h1><ul id="76335eb2-37e0-4830-b05a-3a3ee97f2e15" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#introduction"><strong>Introduction</strong></a></li></ul><ul id="9a3b0da6-9308-46d9-97d9-4589399e56a6" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#timers-settimeout-and-setinterval"><strong>Timers: setTimeout and setInterval</strong></a></li></ul><ul id="fea75925-fd2d-4273-b356-3ac76c7b46d8" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#promises-and-asyncawait"><strong>Promises and Async/Await</strong></a></li></ul><ul id="ac26b65b-ad13-41cc-9bf0-c31d0cf1ee8a" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#dom-events"><strong>DOM Events</strong></a></li></ul><ul id="98a5d4bf-fc06-4618-a22c-ee2c62759f36" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#node-events"><strong>Node Events</strong></a></li></ul><ul id="bbb5cd2a-dc64-4194-986d-d4f7b2f169b5" class="bulleted-list"><li style="list-style-type:disc"><a href="about:blank#practical-examples"><strong>Practical Examples</strong></a></li></ul><h2 id="1febbab1-1746-4070-b951-6591a6e34bc8" class="">Introduction</h2><p id="f67ff2cc-5f70-4ed6-b199-93c435c30445" class="">This document explores various asynchronous operations in JavaScript and how they work. It covers topics like timers, promises, async/await, DOM events, and Node events, along with practical examples.</p><h2 id="66172503-b88e-4ccc-a8d6-47ec48b4ba16" class="">Timers: setTimeout and setInterval</h2><p id="9b9cdded-0aec-4029-812c-10a5864603cc" class="">Timers, such as <code>setTimeout</code> and <code>setInterval</code>, are used to schedule code execution after a specified delay. These functions allow you to create delayed or periodic tasks. Here are some examples:</p><p id="f17782c1-4c2a-4325-b263-13df276390cd" class="">The <code>setTimeout</code> function is used to schedule code execution after a specified delay. The browser’s Web APIs handle the timing, and when the time is up, the associated callback is placed in the callback queue.</p><pre id="d945f557-aaef-4c12-bc91-6a8e4b7dadc9" class="code code-wrap"><code>// Using setTimeout for delayed execution
+setTimeout(function () {
+  console.log(&quot;Delayed operation&quot;);
+}, 1000); // Execute after 1 second</code></pre><p id="f38adb55-eca6-42df-b9d2-bd3f742937e3" class="">The <code>setInterval</code> function is used for periodic execution of code. It repeatedly schedules the specified callback function to run at a fixed time interval.</p><pre id="cca8f7bd-3937-4dee-b3d2-843d442c0581" class="code code-wrap"><code>// Using setInterval for periodic execution
+let count = 0; // This count variable is accesible to callback using Closure&#x27;s concept
+const intervalId = setInterval(function () {
+  count++;
+  console.log(`Execution ${count}`);
+  if (count &gt;= 5) {
+    clearInterval(intervalId); // Stop after 5 executions
+  }
+}, 1000);
+// Execute every 1 second and keep executing until clear inInterval is called</code></pre><h2 id="e2d745b4-cfc9-4981-b0cf-1de27eade8e4" class="">Promises and Async/Await</h2><p id="2a25cee9-f542-4dc6-a5a8-ee9fd14f9969" class="">Promises and async/await are mechanisms for handling asynchronous operations in a more structured way. They are built on top of JavaScript’s event loop. Here’s an example of using async/await with promises:</p><pre id="79087d30-915f-4cb8-8576-4804af5fa332" class="code code-wrap"><code>// Using async/await with Promises
+async function fetchData() {
+  try {
+    const response = await fetch(&quot;https://api.example.com/data&quot;);
+    if (!response.ok) {
+      throw new Error(&quot;Network response was not ok&quot;);
+    }
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(&quot;Fetch error:&quot;, error);
+  }
+}
+fetchData();</code></pre><h2 id="1b88722b-b7f1-46e7-97dc-1063b83d4739" class="">DOM Events</h2><p id="7a97cb55-a3cc-4fc6-845a-43bf4f3392fa" class="">In web development, handling user interactions and events is essential. When you add event listeners to elements, the browser manages events and executes associated callback functions. Here’s an example of adding an event listener to a button click:</p><pre id="7c6f6e8e-12e6-4ce6-a8c3-cf20453d72ea" class="code code-wrap"><code>// Adding an event listener to a button
+const button = document.querySelector(&quot;#myButton&quot;);
+button.addEventListener(&quot;click&quot;, function () {
+  console.log(&quot;Button clicked!&quot;);
+});</code></pre><h2 id="5ee37a38-6604-4543-926b-040ecfb376e8" class="">Node Events</h2><p id="97f0e520-908b-4d13-9e46-2e71af0d78ab" class="">In Node.js, events are a fundamental part of the event-driven architecture. This section covers working with events using the EventEmitter class and includes an example:</p><pre id="086a7c50-f2f6-424b-9de5-fcaf1ca2a4ee" class="code code-wrap"><code>// Adding an event listener to a custom event
+const EventEmitter = require(&quot;events&quot;); // Create an instance of EventEmitter
+const myEmitter = new EventEmitter(); // Register a listener for the &#x27;customEvent&#x27; event
+myEmitter.on(&quot;customEvent&quot;, (arg1, arg2) =&gt; {
+  console.log(&quot;Event received with arguments:&quot;, arg1, arg2);
+}); // Emit the &#x27;customEvent&#x27; event with arguments
+myEmitter.emit(&quot;customEvent&quot;, &quot;Argument 1&quot;, &quot;Argument 2&quot;);</code></pre><h2 id="28cf61fc-27a7-4e14-b759-1e500b8b4234" class="">Practical Examples</h2><p id="b3992579-75b7-4dc4-b6de-7082806c4d24" class="">This section provides practical examples of common asynchronous operations in JavaScript:</p><ol type="1" id="abd0be84-3a48-4792-8598-e5c557ad1afd" class="numbered-list" start="1"><li><strong>Fetching Data:</strong> Fetching data from a remote server using the Fetch API.<pre id="1c455191-702d-49d8-a71b-6240f5fc68fd" class="code code-wrap"><code>fetch(&#x27;https://api.example.com/data&#x27;)
+        .then((response) =&gt; {
+            if (!response.ok) {
+                throw an Error(&#x27;Network response was not ok&#x27;);
+            }
+            return response.json();
+        })
+        .then((data) =&gt; {
+            console.log(data);
+        })
+        .catch((error) =&gt; {
+            console.error(&#x27;Fetch error:&#x27;, error);
+        });</code></pre></li></ol><ol type="1" id="6f3ed411-388e-47f0-a3e8-45cabfd0a1b9" class="numbered-list" start="2"><li><strong>I/O Operations:</strong> Reading and writing files asynchronously in Node.js.<pre id="5be66aab-e417-44f4-a5de-60139e82cbc0" class="code code-wrap"><code>const fs = require(&quot;fs&quot;);
+
+fs.promises
+  .readFile(&quot;file.txt&quot;, &quot;utf-8&quot;)
+  .then((data) =&gt; {
+    console.log(data);
+  })
+  .catch((error) =&gt; {
+    console.error(&quot;File read error:&quot;, error);
+  });</code></pre></li></ol><ol type="1" id="260bcae3-d266-4a3d-b715-1ffc134cfde3" class="numbered-list" start="3"><li><strong>User Interactions:</strong> Handling user interactions, such as button clicks.<pre id="485131d4-2eca-4058-810f-e05309a09361" class="code code-wrap"><code>const button = document.querySelector(&quot;#myButton&quot;);
+
+button.addEventListener(&quot;click&quot;, function () {
+  console.log(&quot;Button clicked!&quot;);
+});</code></pre></li></ol><ol type="1" id="45214c4b-1a26-4fa2-b7a8-74266db08922" class="numbered-list" start="4"><li><strong>Timers and Animations:</strong> Using timers for delayed code execution.<pre id="91133f2d-9435-4b1d-ab85-2098e8d20f09" class="code code-wrap"><code>setTimeout(function () {
+  console.log(&quot;Delayed operation&quot;);
+}, 1000); // Execute after 1 second</code></pre></li></ol><ol type="1" id="be1d393d-166b-4c0f-9e61-92aa972fd25c" class="numbered-list" start="5"><li><strong>(Optional) Web Workers:</strong> Running code in the background using Web Workers.<pre id="94dd0032-9bbd-44fb-acb2-c51e05f44821" class="code code-wrap"><code>// Inside a worker.js file
+self.addEventListener(&quot;message&quot;, function (e) {
+  const result = e.data * 2;
+  self.postMessage(result);
+});
+
+// And in the main script
+const worker = new Worker(&quot;worker.js&quot;);
+
+worker.addEventListener(&quot;message&quot;, function (e) {
+  console.log(&quot;Worker result:&quot;, e.data);
+});
+
+worker.postMessage(5); // Send data to the worker</code></pre></li></ol></div></article></body></html>
