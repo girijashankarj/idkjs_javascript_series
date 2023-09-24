@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Built in Prototypal Methods</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="74b80ce3-9917-4ea5-b6f2-f3df14fc86cf" class="page sans"><header><img class="page-cover-image" src="IDKJS%20-%20Built%20in%20Prototypal%20Methods%2074b80ce399174ea5b6f2f3df14fc86cf/Built_In.png" style="object-position:center 50%"/><h1 class="page-title">IDKJS - Built in Prototypal Methods</h1><p class="page-description"></p></header><div class="page-body"><h1 id="f3a4ba5f-2dd8-44bc-aeae-15b97a840974" class="">Prototypal Methods</h1><h2 id="bd78b36b-d4fe-4977-8c3f-c394f0d03f5c" class="">String Prototype Methods</h2><h3 id="b9813b3e-a024-42e1-b3f6-391580b2bf6c" class="">1. <code>charAt(index)</code></h3><p id="77c56940-2eee-49ba-b89d-8981112a23d4" class="">Returns the character at the specified index.</p><pre id="7d180041-d872-4714-8f53-43e33c870a74" class="code code-wrap"><code>const str = &#x27;Hello, World!&#x27;;const char = str.charAt(7); // Expected output: &#x27;W&#x27;</code></pre><p id="79152280-714e-4eec-9d5f-d91a7d446a73" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt">MDN Documentation</a></p><h3 id="4ec47332-7212-47a4-832d-332ccbc2df76" class="">2. <code>charCodeAt(index)</code></h3><p id="87a419fd-6dc7-4875-84d0-cb18eb390016" class="">Returns the Unicode value of the character at the specified index.</p><pre id="842bad0d-b3e6-4a6f-8a13-ddd1d28d9b37" class="code code-wrap"><code>const unicodeValue = str.charCodeAt(7); // Expected output: 87</code></pre><p id="4244ee7b-ad8f-471d-bf7d-9499bded7252" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt">MDN Documentation</a></p><h3 id="633d94d9-294b-44f0-89a2-68a0fe1af894" class="">3. <code>concat(str1, str2, ...)</code></h3><p id="29c30586-8d4d-4de5-b8e2-623487361edb" class="">Combines one or more strings and returns a new string.</p><pre id="077700f5-09fd-4093-be15-433aec902b62" class="code code-wrap"><code>const str1 = &#x27;Hello,&#x27;;const str2 = &#x27; World&#x27;;const combinedStr = str1.concat(str2); // Expected output: &quot;Hello, World&quot;</code></pre><p id="b6835e93-8f34-4ea7-a3e7-4b80f69c3510" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat">MDN Documentation</a></p><h3 id="18f23140-8888-4ec7-9145-af84a163d87b" class="">4. <code>indexOf(searchValue, fromIndex)</code></h3><p id="f514e3ef-0e38-43c4-9ea3-168d0d939ccd" class="">Returns the index of the first occurrence of a specified value.</p><pre id="81d518fa-e25b-4518-9183-83686ad94b05" class="code code-wrap"><code>const index = str.indexOf(&#x27;is&#x27;); // Expected output: 2</code></pre><p id="2bf9da8a-c417-4adc-9e14-a1afc1f8c397" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf">MDN Documentation</a></p><h3 id="d9f7b86c-b6e0-41fb-bfe1-378f5bd42fc0" class="">5. <code>toUpperCase()</code></h3><p id="7bb69153-1ce7-4d65-9a3a-e30fba0a4b95" class="">Converts the string to uppercase.</p><pre id="7e33187e-504b-4548-8f14-342cc2ce378e" class="code code-wrap"><code>const uppercaseStr = str.toUpperCase(); // Expected output: &quot;HELLO, WORLD!&quot;</code></pre><p id="a38f18f6-90f7-4cd2-9062-d34bf312c205" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase">MDN Documentation</a></p><h3 id="be1f4bbb-f3e2-4231-b8e1-ffe54801a437" class="">6. <code>trim()</code></h3><p id="20611ed6-8889-481f-ad8e-51038f6697df" class="">Removes leading and trailing whitespace.</p><pre id="4098b676-2ee2-4276-a989-0f452d65a7d7" class="code code-wrap"><code>const trimmedStr = str.trim(); // Expected output: &quot;Hello, World!&quot;</code></pre><p id="9a8552c6-174b-4055-94b5-0ae9ae219703" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim">MDN Documentation</a></p><h3 id="d52abf05-036f-4031-8aa2-9ab362641c8f" class="">7. <code>slice(start, end)</code></h3><p id="ae150c67-2697-4622-a40d-331960bbc1b4" class="">Returns a section of the string.</p><pre id="c240d90f-c7b0-4419-8b54-56a682e8c7c9" class="code code-wrap"><code>const slicedStr = str.slice(7, 12); // Expected output: &quot;World&quot;</code></pre><p id="738a9038-7fee-4d24-8e6d-d1d9e1c4927c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice">MDN Documentation</a></p><h3 id="b2c01227-fef6-4d9b-8a79-01020b1f4ea5" class="">8. <code>substring(start, end)</code></h3><p id="03a905a0-6281-4abf-8762-9c160b11ef36" class="">Returns a subset of the string.</p><pre id="c31d5842-9058-45fb-8ccb-e5cc8fc40c34" class="code code-wrap"><code>const subStr = str.substring(7, 12); // Expected output: &quot;World&quot;</code></pre><p id="085695b1-4228-4418-9450-4e057145feda" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring">MDN Documentation</a></p><h3 id="79c13de4-0bd0-46f2-92bc-8f45a51286c0" class="">9. <code>substr(start, length)</code></h3><p id="080b8fbb-bb32-4b01-bac2-c408e7436e2b" class="">Returns a portion of the string starting at the specified index.</p><pre id="88cd4557-65e7-42ba-9a36-3b30d38edc15" class="code code-wrap"><code>const subStr = str.substr(7, 5); // Expected output: &quot;World&quot;</code></pre><p id="61697d20-21af-48d1-b856-c3e68c3fcd5c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr">MDN Documentation</a></p><h3 id="998cdd75-5dab-42dd-ab73-70200729f03e" class="">10. <code>startsWith(searchString, position)</code></h3><p id="04388ae4-7815-4839-a373-49fb05e44617" class="">Checks if the string starts with a specified substring.</p><pre id="86a4a588-74e3-47d9-abc1-363262bb0c5e" class="code code-wrap"><code>const startsWithHello = str.startsWith(&#x27;Hello&#x27;); // Expected output: true</code></pre><p id="676b528a-578c-4945-b65d-7d4b6cbd0f3f" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith">MDN Documentation</a></p><h3 id="250fb3c2-2e63-4a44-aa7e-338dc77e6b2a" class="">11. <code>endsWith(searchString, position)</code></h3><p id="6dddacfd-56f9-4715-b18f-1d348f82f4f2" class="">Checks if the string ends with a specified substring.</p><pre id="c21eb4b3-bdc4-4d25-910e-b8fb4190259b" class="code code-wrap"><code>const endsWithWorld = str.endsWith(&#x27;World!&#x27;); // Expected output: true</code></pre><p id="6ba62452-9e9c-429e-98d7-cd93220c810e" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith">MDN Documentation</a></p><h3 id="71d74b30-cb8f-4a73-a13a-651cc0a8935e" class="">12. <code>includes(searchString, position)</code></h3><p id="8bd4b563-6558-48f2-b6ea-9dea03e5c0f5" class="">Checks if the string contains a specified substring.</p><pre id="88d5c77f-5a90-4af4-88bf-ddb8073ca039" class="code code-wrap"><code>const containsWorld = str.includes(&#x27;World&#x27;); // Expected output: true</code></pre><p id="e038e61b-750f-447d-860b-15b07650ebe2" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes">MDN Documentation</a></p><h3 id="35a96607-0c1d-458f-b65b-ee8433c839ab" class="">13. <code>replace(searchValue, replaceValue)</code></h3><p id="f9365588-43e1-4cdb-93d7-15fa7ee2ca98" class="">Replaces a specified value with another value in the string.</p><pre id="f1830800-dab4-4fd4-8868-57dde2e507ae" class="code code-wrap"><code>const replacedStr = str.replace(&#x27;World&#x27;, &#x27;Universe&#x27;); // Expected output: &quot;Hello, Universe!&quot;</code></pre><p id="ef943a91-8683-4d0f-b10b-5ff7d5002ed9" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">MDN Documentation</a></p><h3 id="95de44f1-beeb-497d-ace2-a447930c30b5" class="">14. <code>split(separator, limit)</code></h3><p id="7a4b96a4-e159-4366-818b-1f8148e4330e" class="">Splits the string into an array of substrings.</p><pre id="2e9b6ced-c49d-413c-bcb4-b6c23c19a422" class="code code-wrap"><code>const words = str.split(&#x27; &#x27;); // Expected output: [&quot;Hello,&quot;, &quot;World!&quot;]</code></pre><p id="0f4ed5ef-3642-4df3-9cb5-c099ae8dd955" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">MDN Documentation</a></p><h3 id="86cb87da-752f-491e-8d7c-6711d53091fb" class="">15. <code>repeat(count)</code></h3><p id="078857e4-268f-486c-8647-18e794015f84" class="">Returns a new string with a specified number of copies.</p><pre id="8ad6b4ed-9500-4ab7-999c-e8c1321b428a" class="code code-wrap"><code>const repeatedStr = &#x27;abc&#x27;.repeat(3); // Expected output: &quot;abcabcabc&quot;</code></pre><p id="9e37e456-d583-4993-8a29-ff802e841169" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat">MDN Documentation</a></p><h3 id="81c0780b-7be2-4494-a35f-00bb93042486" class="">16. <code>startsWith(searchString, position)</code></h3><p id="b52ebd70-bc10-4fbd-b90e-274e7f5364d7" class="">Checks if the string starts with a specified substring.</p><pre id="bfad8500-04bf-4735-bfc6-9442b7107f2a" class="code code-wrap"><code>const startsWithHello = str.startsWith(&#x27;Hello&#x27;); // Expected output: true</code></pre><p id="06d15370-5af3-4446-8da1-28a7e19836b2" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith">MDN Documentation</a></p><h3 id="82963990-abab-4adc-bc0c-7ad29148dea4" class="">17. <code>endsWith(searchString, position)</code></h3><p id="18fa3081-6fce-4ee3-a7ae-56021fbe9ddd" class="">Checks if the string ends with a specified substring.</p><pre id="1f992792-37bb-4f9e-a6d5-b4539a9bd24f" class="code code-wrap"><code>const endsWithWorld = str.endsWith(&#x27;World!&#x27;); // Expected output: true</code></pre><p id="606e1015-4a32-4272-8b41-ddfcf7758a1f" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith">MDN Documentation</a></p><h3 id="2b5edc11-fc01-4e17-b90f-b188f5b0b274" class="">18. <code>toLocaleLowerCase([locales[, options]])</code></h3><p id="50d34a52-3641-4ada-9110-39a50d49c960" class="">Converts the string to lowercase based on the host’s locale.</p><pre id="1620947d-0900-4636-88d1-202c9d5c547d" class="code code-wrap"><code>const localeLowerCaseStr = str.toLocaleLowerCase(&#x27;tr&#x27;); // Locale-specific lowercase string</code></pre><p id="fda5603c-008d-4960-991f-c059be5da2a1" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase">MDN Documentation</a></p><h3 id="e6590825-8017-4463-a53d-d80ff913e171" class="">19. <code>toLocaleUpperCase([locales[, options]])</code></h3><p id="13554033-c651-41d2-9fd9-b50e208c45fd" class="">Converts the string to uppercase based on the host’s locale.</p><pre id="93986ee0-7743-48eb-92ed-ad3be4c7fbc6" class="code code-wrap"><code>const localeUpperCaseStr = str.toLocaleUpperCase(&#x27;tr&#x27;); // Locale-specific uppercase string</code></pre><p id="19c13510-9556-41f8-a79c-9a7761e85298" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase">MDN Documentation</a></p><h3 id="d7e0f4a1-4ff7-4f48-8663-dd69a9311a14" class="">20. <code>trimStart()</code> and <code>trimEnd()</code></h3><p id="742d4b14-aac5-4f1c-aa89-21f60d299003" class="">Removes leading or trailing whitespace.</p><pre id="00ddaec7-e1eb-4203-aa69-2d5ab26739aa" class="code code-wrap"><code>const trimmedStartStr = &#x27;  Hello&#x27;.trimStart(); // Expected output: &quot;Hello&quot;const trimmedEndStr = &#x27;World!   &#x27;.trimEnd(); // Expected output: &quot;World!&quot;</code></pre><p id="3b60295e-11dd-4bed-a06f-85cb5a640828" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart">MDN Documentation (trimStart)</a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd">MDN Documentation (trimEnd)</a></p><h2 id="8db77917-92ba-48a1-aa50-d05baf085c7c" class="">Number Prototype Methods</h2><h3 id="ab63bd80-b836-40fe-88a1-6988bf8c8d63" class="">1. <code>toFixed(digits)</code></h3><p id="7288b26d-20ae-4da4-9b79-32f861d834e2" class="">Formats a number using fixed-point notation.</p><pre id="81cbac2f-e40b-4795-9590-6b0cd4cb7e1f" class="code code-wrap"><code>const num = 3.14159;const fixedNum = num.toFixed(2); // Expected output: &quot;3.14&quot;</code></pre><p id="fd5cb4f2-aeac-4421-b6ee-b83689890cd3" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed">MDN Documentation</a></p><h3 id="15af3f82-48ba-4511-b937-c78010ceb9bc" class="">2. <code>toPrecision(precision)</code></h3><p id="b1500b84-993c-47b4-bbf6-854f7015aa02" class="">Formats a number to a specified precision.</p><pre id="071e0420-bccd-4189-b555-9f2a922ead3e" class="code code-wrap"><code>const precisionNum = num.toPrecision(4); // Expected output: &quot;3.142&quot;</code></pre><p id="6d8821e2-0172-4771-915b-087a9a65dcda" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision">MDN Documentation</a></p><h3 id="ff25bb67-4fd8-40e2-958e-53c104aa05db" class="">3. <code>parseInt(radix)</code></h3><p id="611fe7f2-1d44-4b7b-9914-08a689f201f4" class="">Parses a string and returns an integer.</p><pre id="e37fde1d-8d95-4206-a81b-1f67df29a2b6" class="code code-wrap"><code>const numStr = &#x27;42&#x27;;const parsedNum = parseInt(numStr); // Expected output: 42</code></pre><p id="74386355-16b0-4b85-8861-2787d0e28e16" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt">MDN Documentation</a></p><h3 id="fb913f84-51ef-469b-ae09-8a255fe26fca" class="">4. <code>parseFloat()</code></h3><p id="7c1b4dc4-4317-4516-aa3e-5ba3697be9cd" class="">Parses a string and returns a floating-point number.</p><pre id="0e2439f5-7f44-4d3e-8a61-96a02e3bc30c" class="code code-wrap"><code>const floatStr = &#x27;3.14&#x27;;const parsedFloat = parseFloat(floatStr); // Expected output: 3.14</code></pre><p id="83465f9f-2ab7-48bd-8c40-8d42acb4531a" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat">MDN Documentation</a></p><h3 id="b7f749a3-30f9-46b5-b4c6-3a18f4a2ca2c" class="">5. <code>isInteger()</code></h3><p id="af63e242-b292-4b5f-8d57-59536c7a6cdf" class="">Checks if a number is an integer.</p><pre id="39ecf392-73ec-46e9-b0ae-f7622ce8ef01" class="code code-wrap"><code>const intNum = 42;const isInteger = Number.isInteger(intNum); // Expected output: true</code></pre><p id="342d5349-8450-4be5-baea-1fa73e4ca38e" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger">MDN Documentation</a></p><h3 id="d3c1a334-cd44-4a2c-8034-5a35b81fb4e0" class="">6. <code>isNaN()</code></h3><p id="89405a05-a015-4b11-86be-8cd6a553240f" class="">Checks if a value is NaN (Not-a-Number).</p><pre id="1e3619ab-20bf-4444-b18a-d52d7a136eca" class="code code-wrap"><code>const isNaNValue = isNaN(&#x27;abc&#x27;); // Expected output: true</code></pre><p id="db5c40fd-7c57-4386-8b6e-0d989d43f11a" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN">MDN Documentation</a></p><h3 id="755f6123-53d0-44a8-b840-c77fb5e49b3b" class="">7. <code>isFinite()</code></h3><p id="f874d868-c74f-4d02-9116-bec48c63a9db" class="">Checks if a value is a finite number.</p><pre id="da4af290-55d3-4f5e-b46d-b73872f28e92" class="code code-wrap"><code>const isFiniteValue = isFinite(42); // Expected output: true</code></pre><p id="df0f12fd-296c-47b8-8bdb-3afcc4b21f06" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isFinite">MDN Documentation</a></p><h3 id="87fc3b37-a81b-4091-bb12-fb4e4e2b183b" class="">8. <code>toExponential(fractionDigits)</code></h3><p id="dbb59f68-709d-4112-8721-98e755e64372" class="">Returns a string representing the number in exponential notation.</p><pre id="dc0b3c6e-c9cf-4965-801b-1c100ff64a84" class="code code-wrap"><code>const exponentialStr = num.toExponential(2); // Expected output: &quot;3.14e+0&quot;</code></pre><p id="4c5c52ad-99e6-4dea-b60b-813f0dd3e9be" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential">MDN Documentation</a></p><h3 id="1100a693-8cea-4900-bc6b-b5b2814d24b1" class="">9. <code>toLocaleString([locales[, options]])</code></h3><p id="7a250879-7826-4b57-84f5-81eeb37db980" class="">Returns a string with a language-sensitive representation of the number.</p><pre id="027674b9-19e7-469a-b476-553600ca1029" class="code code-wrap"><code>const localeString = num.toLocaleString(&#x27;de-DE&#x27;); // Locale-specific representation</code></pre><p id="ae948cd7-46c1-4398-b36f-f0de3b3da405" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString">MDN Documentation</a></p><h3 id="ed1204c1-3a41-4103-bd8f-97ee8ef731a4" class="">10. <code>valueOf()</code></h3><p id="8928da99-43c6-40f7-a353-dd307d7efd1b" class="">Returns the primitive value of a Number object.</p><pre id="dee9ccc4-ce8e-42a1-beb4-5ebfbc66bcae" class="code code-wrap"><code>const numValue = num.valueOf(); // Expected output: 3.14159</code></pre><p id="538fff3e-2443-4de1-9124-13f34898af52" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/valueOf">MDN Documentation</a></p><h2 id="98408d3b-847c-4d1d-a817-2c698c9a71c3" class="">Array Prototype Methods</h2><h3 id="6fce0921-4cb6-40e0-b973-198b34d3e72d" class="">1. <code>push(element)</code></h3><p id="768ee366-b3a2-4376-8560-d8ac91c612e2" class="">Adds an element to the end of an array.</p><pre id="07768a65-7f8c-4521-b423-e306215c89ab" class="code code-wrap"><code>const arr = [1, 2, 3];arr.push(4); // Array: [1, 2, 3, 4]</code></pre><p id="af232222-966f-4e39-aba1-05e47825fbba" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push">MDN Documentation</a></p><h3 id="78e9cfe6-10c9-4919-8aea-815d57210f85" class="">2. <code>pop()</code></h3><p id="4911e6b8-7e3b-4583-be6f-8472c02cb788" class="">Removes and returns the last element of an array.</p><pre id="6c7ede1f-1355-4cc7-a5ae-e34061ab2452" class="code code-wrap"><code>const poppedElement = arr.pop(); // Popped element: 4, Array: [1, 2, 3]</code></pre><p id="19b07354-e35e-4c1a-9ba8-18ae4dae843c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop">MDN Documentation</a></p><h3 id="b685453a-8164-46f9-b9be-ccee36fd0812" class="">3. <code>shift()</code></h3><p id="8e20ba3d-7ace-48da-b5c7-8dbfd5824365" class="">Removes and returns the first element of an array.</p><pre id="fac0a2b7-b4e9-4c3d-89b8-a9e8608f7847" class="code code-wrap"><code>const shiftedElement = arr.shift(); // Shifted element: 1, Array: [2, 3]</code></pre><p id="e5f7e901-fdc0-4dbc-8929-b4a6b339cfe6" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift">MDN Documentation</a></p><h3 id="96c9a34e-8a46-45a6-83e9-05833efdf265" class="">4. <code>unshift(element)</code></h3><p id="45f40d17-9abb-4db1-8d84-7dbf1f0b987e" class="">Adds one or more elements to the beginning of an array.</p><pre id="99e58077-88f2-4cb5-bb47-251b47b1bc49" class="code code-wrap"><code>arr.unshift(0, -1); // Array: [-1, 0, 2, 3]</code></pre><p id="82a730cd-6dab-4632-be2c-03ede71dd271" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift">MDN Documentation</a></p><h3 id="cbc1f94a-a689-44be-b3dc-96b2bafc65e7" class="">5. <code>concat(arr1, arr2, ...)</code></h3><p id="39866531-c45b-444d-a682-9111afdcc7ed" class="">Combines two or more arrays and returns a new array.</p><pre id="d24da192-bbb7-44b3-821f-a6d05cfe956b" class="code code-wrap"><code>const arr1 = [1, 2];const arr2 = [3, 4];const combinedArr = arr1.concat(arr2); // Expected output: [1, 2, 3, 4]</code></pre><p id="bb1f681c-3b2b-4a9a-9055-c7260560dafd" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat">MDN Documentation</a></p><h3 id="72c2f1ce-5d03-41b0-ad83-83015b4dc3e5" class="">6. <code>reverse()</code></h3><p id="bf4826e4-046b-4321-b3e5-e1dc054e7f00" class="">Reverses the order of elements in an array.</p><pre id="26964c7a-0f63-4b2c-8ab5-a2e9701b6ac4" class="code code-wrap"><code>arr.reverse(); // Reversed array: [3, 2, 0, -1]</code></pre><p id="cb45e0e5-4e93-4bed-98a3-de61fe26f79f" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse">MDN Documentation</a></p><h3 id="4bcfca12-1a49-484d-bf65-07bccfaa1e66" class="">7. <code>sort(compareFunction)</code></h3><p id="eb77d8ea-4b3e-47f8-aeed-1f75d0038457" class="">Sorts the elements of an array.</p><pre id="2632c503-5014-4498-bff9-e80a76054660" class="code code-wrap"><code>const fruitBasket = [&#x27;banana&#x27;, &#x27;apple&#x27;, &#x27;cherry&#x27;];fruitBasket.sort(); // Sorted array: [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]</code></pre><p id="0c8c4178-9741-4602-afcb-2528e9976606" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">MDN Documentation</a></p><h3 id="17848624-21f8-4689-a9c3-e0cc7fbabc15" class="">8. <code>slice(start, end)</code></h3><p id="46090ac1-eb61-465c-b6b2-41378a358a0f" class="">Extracts a portion of an array and returns a new array.</p><pre id="82811344-5152-4865-a308-786a42417b37" class="code code-wrap"><code>const slicedArr = fruitBasket.slice(1, 3); // Sliced array: [&quot;banana&quot;, &quot;cherry&quot;]</code></pre><p id="0c791b52-e4e9-4ace-bc56-1a98cf3463a0" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">MDN Documentation</a></p><h3 id="27459d96-13d0-48a7-a7d0-caf49b0b8670" class="">9. <code>splice(start, deleteCount, item1, item2, ...)</code></h3><p id="1aa6df92-99c8-4db9-b0c3-d40ace6f8617" class="">Changes the contents of an array by removing, replacing, or adding elements.</p><pre id="148c27f1-ce72-42f8-aaaa-5dd3ac8d402f" class="code code-wrap"><code>fruitBasket.splice(1, 1, &#x27;grape&#x27;, &#x27;kiwi&#x27;); // Modified array: [&quot;apple&quot;, &quot;grape&quot;, &quot;kiwi&quot;, &quot;cherry&quot;]</code></pre><p id="05cd45b4-7eb6-4ad4-a894-981946615383" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">MDN Documentation</a></p><h3 id="2331760e-1dad-4f6e-ab07-607fab66fcf9" class="">10. <code>indexOf(searchElement, fromIndex)</code></h3><p id="d993a588-a89d-4e0b-b1ab-bc0ff062e707" class="">Returns the first index at which a specified element is found.</p><pre id="5a88a201-5e7c-42c8-b59e-a576323b4785" class="code code-wrap"><code>const index = fruitBasket.indexOf(&#x27;kiwi&#x27;); // Expected output: 2</code></pre><p id="8cc45bf7-f45e-48a6-be11-2be0e74c51bd" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">MDN Documentation</a></p><h3 id="035fb9a2-8cc1-4a33-8bfe-41bedf27d3f4" class="">11. <code>lastIndexOf(searchElement, fromIndex)</code></h3><p id="3f76cf05-ddf4-451c-a719-125991361368" class="">Returns the last index at which a specified element is found.</p><pre id="f25396ab-ee8c-4c71-a539-652b775cb47d" class="code code-wrap"><code>const lastIndex = fruitBasket.lastIndexOf(&#x27;kiwi&#x27;); // Expected output: 2</code></pre><p id="741667d1-9edb-4fbf-a8f7-68773e6d49f3" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf">MDN Documentation</a></p><h3 id="3b0ad2d3-1f7b-41d6-b3da-f95486236060" class="">12. <code>every(callback)</code></h3><p id="b70c5fc3-4a6e-45c0-8494-6b99d45ab100" class="">Checks if all elements in an array pass a test.</p><pre id="e01aff8e-bd17-47d8-abe4-0aa16212c419" class="code code-wrap"><code>const allEven = numbers.every((num) =&gt; num % 2 === 0); // Expected output: false</code></pre><p id="48b09b93-85b5-4066-b0e0-633afb54fb00" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">MDN Documentation</a></p><h3 id="797e9f18-32a2-4212-bed1-8bfd1a07e1af" class="">13. <code>some(callback)</code></h3><p id="59a8b5e6-15cc-4793-81e7-f725dc68b2ad" class="">Checks if at least one element in an array passes a test.</p><pre id="a303bcc7-07f4-461b-a1b9-ac054c40b672" class="code code-wrap"><code>const hasEven = numbers.some((num) =&gt; num % 2 === 0); // Expected output: true</code></pre><p id="4616c44a-bd06-4f63-8c0c-62a9e78a2f53" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">MDN Documentation</a></p><h3 id="dbf4514e-eec0-4d42-ad52-224c0c7e96ac" class="">14. <code>forEach(callback)</code></h3><p id="f29283ff-9146-494d-9f07-887ea301c722" class="">Calls a function for each element in an array.</p><pre id="d342a044-2ba7-4d8a-b47a-909d28f862be" class="code code-wrap"><code>const numbers = [1, 2, 3];numbers.forEach((num) =&gt; {    console.log(num);});// Output:// 1// 2// 3</code></pre><p id="e741a353-5460-4cf4-92c0-0fa2daa87c7e" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">MDN Documentation</a></p><h3 id="97cce124-70c2-483e-b814-18192afd6f41" class="">15. <code>map(callback)</code></h3><p id="f536a196-07ee-424a-9fb8-a0bdb148f3e7" class="">Creates a new array with the results of calling a function for each element.</p><pre id="d4ddee3c-5f29-4d7e-847e-f61d49691067" class="code code-wrap"><code>const doubledNumbers = numbers.map((num) =&gt; num * 2); // Expected output: [2, 4, 6]</code></pre><p id="4215ff49-a507-4ece-a8aa-adf8627aeb1c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">MDN Documentation</a></p><h3 id="5d345667-c8ad-4f64-84ba-1f56fcabab66" class="">16. <code>filter(callback)</code></h3><p id="31a02445-72e2-49a2-abf2-0ae37bc1092b" class="">Creates a new array with elements that pass a test.</p><pre id="ca015545-1ec9-4cdb-84ed-1a6f0e6c1f0f" class="code code-wrap"><code>const evenNumbers = numbers.filter((num) =&gt; num % 2 === 0); // Expected output: [2]</code></pre><p id="9eab0492-d26c-4835-bd2d-42461b4dfcf1" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">MDN Documentation</a></p><h3 id="a1900683-cbe0-4063-a01e-0c4bb0b4160e" class="">17. <code>reduce(callback, initialValue)</code></h3><p id="db44cb2e-2bbf-4775-991c-d8df76840e4d" class="">Applies a function against an accumulator and each element in the array (from left to right).</p><pre id="aa14830a-51ec-457b-8205-7c259e35de52" class="code code-wrap"><code>const sum = numbers.reduce((acc, curr) =&gt; acc + curr, 0); // Expected output: 6</code></pre><p id="d58d2918-bbfa-484b-8d4c-c67f34428e0b" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce">MDN Documentation</a></p><h3 id="1348ba87-f5b0-4e51-8f3d-95f812bec815" class="">18. <code>reduceRight(callback, initialValue)</code></h3><p id="b00ec60d-34d1-484e-a813-8eaf45afd99e" class="">Applies a function against an accumulator and each element in the array (from right to left).</p><pre id="47b52482-4fe3-4850-8cda-dee1a03aa61d" class="code code-wrap"><code>const concatStr = fruitBasket.reduceRight((acc, curr) =&gt; acc + &#x27; &#x27; + curr, &#x27;&#x27;); // Expected output: &quot;cherry kiwi grape apple&quot;</code></pre><p id="4472616b-2445-458c-845f-d96bda8e9207" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">MDN Documentation</a></p><h3 id="3bb68e02-3f89-4b18-b79e-882e1292f9fd" class="">19. <code>find(callback)</code></h3><p id="9fe2f935-1893-4d93-a265-30da5ffb408d" class="">Returns the first element in an array that satisfies a provided test function.</p><pre id="9040e3e5-c3d4-43c4-bd66-929f459ac99d" class="code code-wrap"><code>const firstEven = numbers.find((num) =&gt; num % 2 === 0); // Expected output: 2</code></pre><p id="e3022e29-b033-4288-8ca2-1b5d60efc6b2" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">MDN Documentation</a></p><h3 id="4214aaa7-e7e4-4177-8221-03aca2785029" class="">20. <code>findIndex(callback)</code></h3><p id="d9481a75-1963-44c5-9238-b7ad5553b0a6" class="">Returns the index of the first element in an array that satisfies a provided test function.</p><pre id="09e26b02-04ec-43ea-a67e-e2e20ba87ffb" class="code code-wrap"><code>const firstEvenIndex = numbers.findIndex((num) =&gt; num % 2 === 0); // Expected output: 1</code></pre><p id="6832d596-8559-485b-be12-183d85bca591" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">MDN Documentation</a></p><h3 id="4ec37b9a-eea5-44c0-a4ba-7cea80f5070e" class="">21. <code>fill(value, start, end)</code></h3><p id="ee4560dd-ec77-4d7c-b859-48798118f12e" class="">Changes all elements in an array to a static value.</p><pre id="78021c23-96bc-4cd3-b5c8-6361480b4513" class="code code-wrap"><code>const filledArray = new Array(5).fill(0); // Array: [0, 0, 0, 0, 0]</code></pre><p id="8508b5ff-2bec-4b69-a59a-9b2f217591a0" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill">MDN Documentation</a></p><h3 id="cb52a3a9-23c0-4330-b944-75fe2d957dc6" class="">22. <code>includes(searchElement, fromIndex)</code></h3><p id="5a511f10-eab6-4f2f-8338-bcde5e67573e" class="">Checks if an array contains a certain element.</p><pre id="df54ee39-b7aa-4512-89e0-bdac34ed5bed" class="code code-wrap"><code>const includesElement = fruitBasket.includes(&#x27;kiwi&#x27;); // Expected output: true</code></pre><p id="0dada332-13ac-49d1-9272-88b822eda001" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes">MDN Documentation</a></p><h3 id="577844f4-2ebb-497f-9422-5b2bda7be542" class="">23. <code>flat(depth)</code></h3><p id="bb5ce59f-c708-44ee-b7e8-66b3aff65f9b" class="">Creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.</p><pre id="27747272-7deb-4537-8ed4-c9b1c4ea76c7" class="code code-wrap"><code>const nestedArray = [1, [2, [3]]];const flatArray = nestedArray.flat(2); // Expected output: [1, 2, 3]</code></pre><p id="164f6e1a-b2eb-4734-9e38-aad67286940a" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat">MDN Documentation</a></p><h3 id="384b1140-e6a0-424f-baac-072c196c99a2" class="">24. <code>flatMap(callback)</code></h3><p id="2d743282-2402-4812-941a-8097b10c9d03" class="">First maps each element using a mapping function, then flattens the result into a new array.</p><pre id="212de49b-d41d-4187-abd6-91ab69814ba1" class="code code-wrap"><code>const flatMapped = numbers.flatMap((num) =&gt; [num * 2, num * 3]); // Expected output: [2, 3, 4, 6, 6, 9]</code></pre><p id="d3e93e9f-dd2f-4785-9066-3bade8183835" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap">MDN Documentation</a></p><h2 id="f09a994c-d4b7-4841-bd5a-ecb4199fc163" class="">Object Prototype Methods</h2><h3 id="69649a2f-41fc-412f-bf86-de0df0c9e836" class="">1. <code>hasOwnProperty(prop)</code></h3><p id="a27f12ca-88c7-487c-b1f5-2265084f8aeb" class="">Checks if an object has a specified property.</p><pre id="62735b25-d64d-4ebd-bbf9-fd41396e4829" class="code code-wrap"><code>const obj = { name: &#x27;John&#x27;, age: 30 };const hasName = obj.hasOwnProperty(&#x27;name&#x27;); // Expected output: true</code></pre><p id="5f29125e-7cf3-41e1-b3a4-4e955cfb28aa" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty">MDN Documentation</a></p><h3 id="a7286724-cc95-48ce-9a0b-d830bef5eb13" class="">2. <code>propertyIsEnumerable(prop)</code></h3><p id="0877a5ae-6e1e-4cc9-a881-38903c4fe0ae" class="">Checks if a specified property is enumerable.</p><pre id="7f3d7b44-b6b4-48f9-b6fd-633f9d0c92d1" class="code code-wrap"><code>const isEnumerable = obj.propertyIsEnumerable(&#x27;age&#x27;); // Expected output: true</code></pre><p id="a462d84a-c6e5-4e4d-b61a-05f79bbd8b63" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable">MDN Documentation</a></p><h3 id="3aac3c73-e11d-47ef-9174-92379433bc86" class="">3. <code>isPrototypeOf(obj)</code></h3><p id="0acf3637-4e08-4039-bcc5-1611d99703d2" class="">Checks if an object is in the prototype chain of another object.</p><pre id="cab6fa98-ce81-45d3-b576-2c54c46dd384" class="code code-wrap"><code>function Person(name) {    this.name = name;}const person = new Person(&#x27;Alice&#x27;);const isPrototype = Person.prototype.isPrototypeOf(person); // Expected output: true</code></pre><p id="71e942a4-f102-4af7-b5ba-46920d5bd5d8" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isPrototypeOf">MDN Documentation</a></p><h3 id="351473fe-b954-4a6f-840b-e31b69ed4776" class="">4. <code>toLocaleString([locales[, options]])</code></h3><p id="7e9eeeed-f625-42f5-b3ce-c26cb02011d3" class="">Returns a string representing the object.</p><pre id="41136478-d7e0-4a42-86ba-4e3628619eb9" class="code code-wrap"><code>const objString = obj.toLocaleString(&#x27;en-US&#x27;, {    style: &#x27;currency&#x27;,    currency: &#x27;USD&#x27;,}); // Locale-specific object string</code></pre><p id="5e2c0c88-bca2-46eb-b225-ff2beb1194ac" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toLocaleString">MDN Documentation</a></p><h3 id="3d913e7c-3eb7-4e30-bfbe-66de533c63d4" class="">5. <code>toString()</code></h3><p id="61106736-80a8-415e-a22a-957f15e1ff27" class="">Returns a string representing the object.</p><pre id="bfeb16cd-e3aa-41e0-9a9e-113259ff04dd" class="code code-wrap"><code>const objString = obj.toString(); // Expected output: &quot;[object Object]&quot;</code></pre><p id="241e4b06-5ce1-41ef-90d4-a298d5374327" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString">MDN Documentation</a></p><h3 id="80c5398d-811c-4adc-ae3a-8548498823be" class="">6. <code>valueOf()</code></h3><p id="f3fded65-41c1-4b64-afb9-4ee0c8dace1d" class="">Returns the primitive value of the object.</p><pre id="800b72e9-9ea2-4e3f-ad1b-d69be152bca4" class="code code-wrap"><code>const objValue = obj.valueOf(); // The object itself</code></pre><p id="3f41b004-9867-4e72-93a2-7d3d00f33f80" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/valueOf">MDN Documentation</a></p><h2 id="d893f2f5-22d6-4a04-94fb-77e01d81031e" class="">Boolean Prototype Methods</h2><h3 id="0dbf3a92-0c32-446a-ae5f-1b90591a3761" class="">1. <code>toString()</code></h3><p id="ac8a6955-15ba-4f0a-81c5-b8af9af0bb85" class="">Converts a Boolean to a string representation.</p><pre id="80bc6cc4-b457-47ff-a526-069687ebc2d6" class="code code-wrap"><code>const bool = true;const boolString = bool.toString(); // Expected output: &quot;true&quot;</code></pre><p id="2424e959-df69-4b5c-b19a-4c4e6d8dec2a" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean/toString">MDN Documentation</a></p><h3 id="1d1e8f53-dc9a-4cb4-9a24-5676c459b8c6" class="">2. <code>valueOf()</code></h3><p id="871e9aea-92a3-4daa-8cf5-82a0d54e8d81" class="">Returns the primitive value of a Boolean object.</p><pre id="5bbcd09c-a7fe-4855-b9c3-8363c34aff21" class="code code-wrap"><code>const boolValue = bool.valueOf(); // The boolean value itself</code></pre><p id="f42694de-a200-44bc-94a6-7dcd9bc562b5" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean/valueOf">MDN Documentation</a></p><h2 id="70177e64-7b2d-4ca6-914f-81e5c4a00907" class="">Date Prototype Methods</h2><h3 id="a8896c8c-26d2-4566-863d-d264924b63b3" class="">1. <code>getDate()</code></h3><p id="dc17c1a5-b45a-4066-bc1d-a1a23bc7cb7c" class="">Returns the day of the month (1-31).</p><pre id="e2aef4af-b2ed-4c7e-857c-fc0a92223c28" class="code code-wrap"><code>const date = new Date();const day = date.getDate(); // Current day of the month</code></pre><p id="a5eb9197-45a4-48b1-923f-623194534ce7" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDate">MDN Documentation</a></p><h3 id="2afa9662-456b-4106-b89e-95b8eb5321fa" class="">2. <code>getDay()</code></h3><p id="ad8922fb-ad55-40cb-833c-996bcebc8349" class="">Returns the day of the week (0-6) where Sunday is 0 and Saturday is 6.</p><pre id="35c65f69-3319-49f2-ac75-cef96566fb94" class="code code-wrap"><code>const dayOfWeek = date.getDay(); // Current day of the week</code></pre><p id="0dc320ad-b401-41bf-9c33-830cda279139" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay">MDN Documentation</a></p><h3 id="483df180-e648-45f0-9525-8e6076367733" class="">3. <code>getFullYear()</code></h3><p id="1bd6856c-744a-4d79-ae3c-8fb4ead5f47d" class="">Returns the year (four digits) of the date.</p><pre id="8ab6e725-b266-4a04-a1b3-c568418b1aa2" class="code code-wrap"><code>const year = date.getFullYear(); // Current year</code></pre><p id="04bb9904-27b5-4b51-9fbc-8606037317e0" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear">MDN Documentation</a></p><h3 id="1fa54f54-a52e-4203-b066-f4bf7c8daeee" class="">4. <code>getHours()</code></h3><p id="394d9521-91d7-404f-806b-47fb3ce6e23d" class="">Returns the hour (0-23) of the date.</p><pre id="b617da04-4c02-4fc8-861e-54eb1de2ede3" class="code code-wrap"><code>const hours = date.getHours(); // Current hour</code></pre><p id="eb652ce5-6be3-4946-b7b4-c5e4c321d369" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getHours">MDN Documentation</a></p><h3 id="d5d50780-40e0-4f57-805e-8fd6b34f4027" class="">5. <code>getMilliseconds()</code></h3><p id="a89e8ffe-38df-4072-a0f5-bd55dafc20f6" class="">Returns the milliseconds (0-999) of the date.</p><pre id="0e1b46a7-9634-4214-b3e1-1b4f2233a7d6" class="code code-wrap"><code>const milliseconds = date.getMilliseconds(); // Current milliseconds</code></pre><p id="a8a8fc4d-a92e-4307-bfd3-2c1bcca502d9" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMilliseconds">MDN Documentation</a></p><h3 id="673b3261-9830-4397-a1d6-8dfc96a5bb01" class="">6. <code>getMinutes()</code></h3><p id="1fb9cd48-854d-48b7-a502-71929ce5db2b" class="">Returns the minutes (0-59) of the date.</p><pre id="783fbb60-3d5f-4bec-b68e-369ac22c4c6b" class="code code-wrap"><code>const minutes = date.getMinutes(); // Current minutes</code></pre><p id="e7f3085d-5bf5-473f-b86d-2c16d085f3f4" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMinutes">MDN Documentation</a></p><h3 id="5efda825-f8f2-47a8-a8a8-378351fac702" class="">7. <code>getMonth()</code></h3><p id="bbcde8cd-e339-4069-a193-c882e396707b" class="">Returns the month (0-11) of the date.</p><pre id="2d80bb61-3822-4c9d-a0a5-7b4ea98abc1c" class="code code-wrap"><code>const month = date.getMonth(); // Current month</code></pre><p id="e25952df-ac2c-489e-9057-b4569528f92b" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth">MDN Documentation</a></p><h3 id="e1b9bbe7-ea72-458f-b599-9e4a3511d50b" class="">8. <code>getSeconds()</code></h3><p id="1404f01e-013a-441f-9902-b44dd200f4c8" class="">Returns the seconds (0-59) of the date.</p><pre id="5692beae-3f8f-4b3c-b91b-6681a94a4fad" class="code code-wrap"><code>const seconds = date.getSeconds(); // Current seconds</code></pre><p id="781c9cbd-5c33-4b91-8769-447fe3420889" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getSeconds">MDN Documentation</a></p><h3 id="55a52fe9-cef0-4008-96e3-45b84dfa9688" class="">9. <code>getTime()</code></h3><p id="2933ebfa-d6b3-4e07-bf03-ea136240723b" class="">Returns the number of milliseconds since January 1, 1970, 00:00:00 UTC.</p><pre id="eb932df2-5848-4b0c-a698-baeef56fe3b5" class="code code-wrap"><code>const timestamp = date.getTime(); // Current timestamp</code></pre><p id="32d1461d-8192-4d64-9ce4-c257474c2737" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime">MDN Documentation</a></p><h3 id="36bd0190-91c4-422f-93ef-f81a87353cf2" class="">10. <code>toISOString()</code></h3><p id="edb96cd4-a54f-405f-8d9c-31bab67e8503" class="">Returns a string representing the date in ISO format.</p><pre id="bc64006f-724c-4655-8b30-0635dd6ea02e" class="code code-wrap"><code>const isoString = date.toISOString(); // ISO formatted date string</code></pre><p id="3173c972-57f5-406e-afe9-24a54dded528" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString">MDN Documentation</a></p><h3 id="53f22947-6ac5-4fbf-8dbb-5e14f6b9f5ab" class="">11. <code>toJSON()</code></h3><p id="192d5347-73c8-454e-b810-d85211ff2a21" class="">Returns a JSON representation of the date.</p><pre id="702dd2eb-f57f-4da8-a93a-e375d18615ca" class="code code-wrap"><code>const jsonDate = date.toJSON(); // JSON formatted date string</code></pre><p id="5b1f144c-bda6-4dcc-993f-fc2373a9792d" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toJSON">MDN Documentation</a></p><h3 id="fe879af0-d2e1-43b0-ba7f-72e01a354c07" class="">12. <code>toLocaleDateString([locales[, options]])</code></h3><p id="9ff6850e-8122-45a6-856e-39a6adf11ba3" class="">Returns a string with a language-sensitive representation of the date.</p><pre id="64c55745-3d4f-499a-bce0-77f6b2749cf6" class="code code-wrap"><code>const localeDateString = date.toLocaleDateString(&#x27;fr-FR&#x27;, {    weekday: &#x27;long&#x27;,    year: &#x27;numeric&#x27;,    month: &#x27;long&#x27;,    day: &#x27;numeric&#x27;,}); // Locale-specific date string</code></pre><p id="ab836ee1-d896-414d-8776-144452d4ac03" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString">MDN Documentation</a></p><h3 id="06541aab-d532-402f-a56c-814eb86f0399" class="">13. <code>toLocaleTimeString([locales[, options]])</code></h3><p id="42864ffb-0f42-4167-8369-0b6777487dae" class="">Returns a string with a language-sensitive representation of the time.</p><pre id="c564c8d5-23e7-4d47-a040-6e0396259a01" class="code code-wrap"><code>const localeTimeString = date.toLocaleTimeString(&#x27;de-DE&#x27;); // Locale-specific time string</code></pre><p id="3da2c4b7-c37e-49d9-905b-271496c31646" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString">MDN Documentation</a></p><h3 id="0b55c3b3-deab-4ec3-932c-bab479fa88b1" class="">14. <code>toLocaleString([locales[, options]])</code></h3><p id="0cd179d7-8d72-4771-845b-e73a9e5d4a3c" class="">Returns a string with a language-sensitive representation of the date and time.</p><pre id="d0525664-356d-43cb-9584-6d95e50ae548" class="code code-wrap"><code>const localeString = date.toLocaleString(&#x27;ja-JP&#x27;); // Locale-specific date and time string</code></pre><p id="0c47d35b-2052-4cc0-9e3e-b21fc4330987" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">MDN Documentation</a></p><h3 id="69ad05cd-4689-4a9f-b23a-e4628c0a1b21" class="">15. <code>toString()</code></h3><p id="caff3f49-3005-4319-ac28-e5ad6a93067d" class="">Returns a string representation of the date.</p><pre id="be7ae109-2c3b-4e77-a307-8a6b07e7e234" class="code code-wrap"><code>const dateString = date.toString(); // Expected output: &quot;Sat Sep 02 2023 10:30:00 GMT+0000 (Coordinated Universal Time)&quot;</code></pre><p id="f1f28793-524b-4aba-a2a1-d520e3809803" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toString">MDN Documentation</a></p><h3 id="09fefebe-58cb-42e1-a17c-fb702bfa1454" class="">16. <code>valueOf()</code></h3><p id="2e8643ec-bda7-4abf-a563-7f58576caa59" class="">Returns the primitive value of the date.</p><pre id="40de2eb4-6d1c-4991-ba6e-795e40161040" class="code code-wrap"><code>const dateValue = date.valueOf(); // Timestamp value</code></pre><p id="87d2502d-34d6-4c92-b4b6-98e9e5c616a2" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/valueOf">MDN Documentation</a></p><h2 id="f490aca2-02aa-433e-b248-478cb853ef16" class="">Function Prototype Methods</h2><h3 id="4a9e0bab-f8f9-4825-b9ea-2b2feca8a9de" class="">1. <code>apply(thisArg, argsArray)</code></h3><p id="f17c0ddd-90b3-45b4-b4ec-dad83af15480" class="">Calls a function with a given <code>this</code> value and arguments provided as an array.</p><pre id="a48110d8-7b8b-4699-b1f5-4ffd4c914f31" class="code code-wrap"><code>function greet(name) {    return `Hello, ${name}!`;}const result = greet.apply(null, [&#x27;Alice&#x27;]); // Expected output: &quot;Hello, Alice!&quot;</code></pre><p id="e14b8bfa-314a-4220-bc74-4d49a126ee97" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">MDN Documentation</a></p><h3 id="3bcc9f29-cb65-4dc5-bfc7-b4abff9aa6f8" class="">2. <code>call(thisArg, arg1, arg2, ...)</code></h3><p id="d267fe1c-6787-46ba-a4d0-aea26b26f730" class="">Calls a function with a given <code>this</code> value and individual arguments.</p><pre id="b340c821-da43-4fb0-a2ff-8bb3ed3e8bea" class="code code-wrap"><code>const result = greet.call(null, &#x27;Bob&#x27;); // Expected output: &quot;Hello, Bob!&quot;</code></pre><p id="1ef6533d-d33e-44ff-9fef-52d3003a750b" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">MDN Documentation</a></p><h3 id="2bb026c6-d36b-4c89-90aa-966d17dadafd" class="">3. <code>bind(thisArg, arg1, arg2, ...)</code></h3><p id="e7e9bff9-8fe6-453e-bdd4-a6ae203015ad" class="">Creates a new function with a given <code>this</code> value and arguments.</p><pre id="f8608f1c-36a9-44fd-9faa-5b7ffb987df0" class="code code-wrap"><code>const boundGreet = greet.bind(null, &#x27;Charlie&#x27;);const result = boundGreet(); // Expected output: &quot;Hello, Charlie!&quot;</code></pre><p id="f658058d-200b-4aa2-af2c-dfe4d092daab" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">MDN Documentation</a></p><h2 id="e8de03d5-409f-4564-b507-365533be0daa" class="">RegExp Prototype Methods</h2><h3 id="332d4f84-64d5-4a3b-9268-331baacb174a" class="">1. <code>exec(str)</code></h3><p id="3b9c65c0-ab7c-48e9-9c98-348dfee41fc8" class="">Executes a search for a match in a specified string.</p><pre id="bb48d1da-a5c3-4885-822c-822a6abe1cd8" class="code code-wrap"><code>const regex = /world/g;const result = regex.exec(&#x27;Hello, world! world!&#x27;); // Array of matches: [&quot;world&quot;, &quot;world&quot;]</code></pre><p id="bfcaf11a-e870-49b5-ac19-4678bd3550b6" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec">MDN Documentation</a></p><h3 id="7b5b13ca-65e6-4445-88ec-82aab985bab3" class="">2. <code>test(str)</code></h3><p id="5143bcff-487f-41d6-a200-605d56c17e48" class="">Tests for a match in a specified string.</p><pre id="ea9bd21f-227f-4c83-bea4-c5d469fa1310" class="code code-wrap"><code>const isMatch = regex.test(&#x27;Hello, world!&#x27;); // Expected output: true</code></pre><p id="f0086fc6-df64-4a79-a99e-878c1aaad69c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test">MDN Documentation</a></p><h2 id="55f891e3-5fe2-41d5-9b5a-57c958cce85a" class="">Map Prototype Methods</h2><h3 id="7a695a16-6ba6-45e7-bb6e-5a734438c638" class="">1. <code>set(key, value)</code></h3><p id="18951559-46c2-42af-a85e-9560faa7306b" class="">Sets the value for a key in a Map object.</p><pre id="bb354a6e-c5d0-4c47-8c91-dfc116167742" class="code code-wrap"><code>const map = new Map();map.set(&#x27;name&#x27;, &#x27;John&#x27;);</code></pre><p id="c828a736-48d9-4ead-aba3-ef8bb664ec3c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set">MDN Documentation</a></p><h3 id="5ece1121-7acf-4003-ae06-ed899fb82635" class="">2. <code>get(key)</code></h3><p id="fa993d3e-0f0c-4bf3-88fc-ed0b409ebfd6" class="">Returns the value associated with a key in a Map object.</p><pre id="8362822c-1411-4dbe-8f88-aa054f673935" class="code code-wrap"><code>const name = map.get(&#x27;name&#x27;); // Expected output: &quot;John&quot;</code></pre><p id="a91d84ad-55b9-4ca6-bef9-9cf93cfd567c" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get">MDN Documentation</a></p><h3 id="4efca440-28f4-4692-80a4-e0d7e328ccda" class="">3. <code>has(key)</code></h3><p id="8960c712-933a-4bed-8017-d883b9ad4fdc" class="">Checks if a key exists in a Map object.</p><pre id="880f7ad7-baf0-4a54-872b-dad89cbd7d0a" class="code code-wrap"><code>const hasName = map.has(&#x27;name&#x27;); // Expected output: true</code></pre><p id="135c4de2-18a4-46ed-b202-3ea0e2cf5a7e" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has">MDN Documentation</a></p><h3 id="735faf40-7aeb-4631-b2bd-e1b2d7131201" class="">4. <code>delete(key)</code></h3><p id="268923e3-b951-42f0-a90a-1a3da4f211c4" class="">Removes a key and its associated value from a Map object.</p><pre id="9be5a4df-9f16-4465-aac2-971def046bce" class="code code-wrap"><code>map.delete(&#x27;name&#x27;);</code></pre><p id="ce4a1b34-c28e-482a-bca7-b1a21941abf8" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/delete">MDN Documentation</a></p><h3 id="db0c47eb-a5ee-48fc-98fa-3dc415e53c02" class="">5. <code>clear()</code></h3><p id="8c1a5fe4-5b30-43e2-b0f5-474c6e9917f6" class="">Removes all key-value pairs from a Map object.</p><pre id="f7b69edf-96ba-4f08-bb83-6a1bedce0f32" class="code code-wrap"><code>map.clear();</code></pre><p id="eac35359-d531-4fc4-b3df-2446e4ceeee9" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/clear">MDN Documentation</a></p><h3 id="889c885a-ee15-4f6b-acd2-44e3654f722e" class="">6. <code>keys()</code></h3><p id="70432231-386e-45a2-99a7-e19b93709b40" class="">Returns an iterator of keys in a Map object.</p><pre id="de5bfb98-f9ca-43f7-a88c-54f0a457df4f" class="code code-wrap"><code>const keysIterator = map.keys();</code></pre><p id="09beb602-e44c-495f-a443-37878ac0d102" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/keys">MDN Documentation</a></p><h3 id="e529360c-79c9-43dc-85d9-4da76084007c" class="">7. <code>values()</code></h3><p id="5d5c9b7d-6620-4f81-a3d7-076b4d5b3eb7" class="">Returns an iterator of values in a Map object.</p><pre id="c7b3d199-648c-435c-b65a-0b5e34a8385f" class="code code-wrap"><code>const valuesIterator = map.values();</code></pre><p id="cd101f6b-5e92-4a37-b1b8-0ccb1a41ed89" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/values">MDN Documentation</a></p><h3 id="46b95c78-a8c9-45bb-a8cb-723ceba80505" class="">8. <code>entries()</code></h3><p id="8347d76c-4ea6-4f73-8ec4-37921ab66f61" class="">Returns an iterator of key-value pairs in a Map object.</p><pre id="00a99e37-d728-4a97-bb03-a9d44d506688" class="code code-wrap"><code>const entriesIterator = map.entries();</code></pre><p id="a3a908ee-94bf-4f82-9063-4767ab8a6310" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/entries">MDN Documentation</a></p><h3 id="f48609c0-6fd9-44f0-aa76-f07fd6ac0c96" class="">9. <code>forEach(callback)</code></h3><p id="dd80f04a-e174-47c6-ac6b-395af77107c4" class="">Calls a provided function once for each key-value pair in a Map object.</p><pre id="5d9baceb-af7c-47c2-9d85-66936c97de3a" class="code code-wrap"><code>map.forEach((value, key) =&gt; {    console.log(`${key}: ${value}`);});</code></pre><p id="faa98acc-e904-47db-8ab9-ce78122dd704" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach">MDN Documentation</a></p><h2 id="bce9cdd6-cd22-4af2-9cc7-901f4de5e3ab" class="">Set Prototype Methods</h2><h3 id="e706361b-9205-48c1-badc-d668f8dddb1a" class="">1. <code>add(value)</code></h3><p id="780fffe5-824c-47fc-8880-bf42eaa8cdb1" class="">Adds a new element with the specified value to a Set object.</p><pre id="5245d6d3-681f-4c71-8ee0-76701b689b29" class="code code-wrap"><code>const set = new Set();set.add(&#x27;apple&#x27;);</code></pre><p id="c9fd2427-836d-4405-af2b-57d9c5a77124" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add">MDN Documentation</a></p><h3 id="2aa78e2c-0a56-402e-bae6-cfecb61c8483" class="">2. <code>has(value)</code></h3><p id="98ee835c-5617-422e-99f1-4c50b413ed73" class="">Checks if a value exists in a Set object.</p><pre id="3a3db277-cdcc-4ab9-8c00-7a45ad89d457" class="code code-wrap"><code>const hasApple = set.has(&#x27;apple&#x27;); // Expected output: true</code></pre><p id="762bc955-acf9-4f55-a8c5-542a736e7669" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has">MDN Documentation</a></p><h3 id="15764a46-9733-4a9b-a56b-70fa2ce4db36" class="">3. <code>delete(value)</code></h3><p id="34a25435-53b7-4ce7-ac8a-990959a00fe4" class="">Removes a specified value from a Set object.</p><pre id="4833acb2-a483-4e96-8c42-ecd258c7fdc8" class="code code-wrap"><code>set.delete(&#x27;apple&#x27;);</code></pre><p id="f2f4787b-8f5a-49db-87b5-557bbbe52e49" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete">MDN Documentation</a></p><h3 id="5698f354-8a2e-499f-8568-810e8cf76a2e" class="">4. <code>clear()</code></h3><p id="75d07d31-9876-475e-92b1-ac9e3be3d8ec" class="">Removes all elements from a Set object.</p><pre id="b6406130-9984-4a94-92cd-2592010fdf49" class="code code-wrap"><code>set.clear();</code></pre><p id="d3785477-740c-45b6-9eda-0cc061ec4799" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear">MDN Documentation</a></p><h3 id="066f772f-4311-4718-b32d-5755fa9cfa87" class="">5. <code>values()</code></h3><p id="1ad61f0c-cd95-483d-9ec0-ef06e50fcf56" class="">Returns an iterator of values in a Set object.</p><pre id="f5472713-d339-46fc-81aa-48279cf71688" class="code code-wrap"><code>const valuesIterator = set.values();</code></pre><p id="cff42b4d-5df3-4aa1-aece-14b221505893" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/values">MDN Documentation</a></p><h3 id="9615d11c-fc64-4f9b-9278-b8b1b02c070e" class="">6. <code>entries()</code></h3><p id="5cf9cf38-75c3-4530-85bd-2515256aa3dd" class="">Returns an iterator of values in a Set object (values are also keys).</p><pre id="259520c4-eb50-4759-aa2f-096bb8528f6b" class="code code-wrap"><code>const entriesIterator = set.entries();</code></pre><p id="3112689f-66f5-4b9d-a132-e06b4af43753" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/entries">MDN Documentation</a></p><h3 id="745ebb25-f9a3-45a8-bd0c-bdd614f763d3" class="">7. <code>forEach(callback)</code></h3><p id="37d93a11-9aba-47cd-97e8-a3869e3d7687" class="">Calls a provided function once for each value in a Set object.</p><pre id="eae430a9-a6a0-47d4-b54c-97bbce80cc8c" class="code code-wrap"><code>set.forEach((value) =&gt; {    console.log(value);});</code></pre><p id="eb2147d0-28ae-4863-a8f6-ce2a3f253977" class=""><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/forEach">MDN Documentation</a></p></div></article></body></html>

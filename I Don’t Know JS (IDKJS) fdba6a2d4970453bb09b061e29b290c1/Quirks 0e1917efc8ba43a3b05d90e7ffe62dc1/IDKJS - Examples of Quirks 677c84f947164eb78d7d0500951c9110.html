@@ -1,0 +1,725 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Examples of Quirks</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="677c84f9-4716-4eb7-8d7d-0500951c9110" class="page sans"><header><img class="page-cover-image" src="IDKJS%20-%20Examples%20of%20Quirks%20677c84f947164eb78d7d0500951c9110/Quirks_Examples.png" style="object-position:center 50%"/><h1 class="page-title">IDKJS - Examples of Quirks</h1><p class="page-description"></p></header><div class="page-body"><h3 id="3b433090-07f0-420e-b136-f90194fa3469" class="">Quirks in JavaScript</h3><p id="831a13d2-ff65-4678-a967-5c29b0950446" class="">JavaScript has some quirks and unexpected behaviors that can catch developers by surprise. Let’s explore a few of these quirks along with explanations for why they happen.</p><h3 id="16da2eca-185b-48af-8941-c7cc5dafe47e" class="">Quirk 1: Adding Strings and Numbers</h3><p id="9edb2947-e0bb-4748-8451-27f0f3996228" class="">In JavaScript, you can add strings and numbers together using the <code>+</code> operator, which can lead to unexpected results.</p><pre id="118c2807-9e69-4ec6-ae2b-b2081bdd1352" class="code code-wrap"><code>const result = &#x27;5&#x27; + 3; // Result is &quot;53&quot;</code></pre><p id="fa50f784-60eb-417a-a152-e02ae5a14833" class=""><strong>Explanation:</strong> This happens because JavaScript performs implicit type coercion when using the <code>+</code> operator. When you try to add a string and a number, JavaScript converts the number to a string and then concatenates the two strings. To avoid this quirk and ensure numeric addition, you can use the <code>parseInt()</code> or <code>parseFloat()</code> functions to explicitly convert the string to a number.</p><pre id="3c71dbc8-8d35-4782-9ae8-15b3272dee99" class="code code-wrap"><code>const result = parseInt(&quot;5&quot;) + 3; // Result is 8</code></pre><h3 id="72a43e1b-3d82-47f6-9522-e99c22e9ff4d" class="">Quirk 2: Floating-Point Precision</h3><p id="efa16821-b334-4970-a125-221c3935c9cc" class="">JavaScript uses the IEEE 754 standard for representing numbers, which can lead to precision issues with floating-point numbers.</p><pre id="dc544fd6-7239-47b0-8923-b2db9be82338" class="code code-wrap"><code>const result = 0.1 + 0.2; // Result is not exactly 0.3 (it&#x27;s approximately 0.30000000000000004)</code></pre><p id="796201ca-4657-462c-86a6-4c4986fb4f6f" class=""><strong>Explanation:</strong> This happens because floating-point numbers are stored in binary format, and some decimal numbers cannot be precisely represented. To mitigate this quirk, you can round the result to a specific number of decimal places using functions like <code>toFixed()</code>.</p><pre id="1378c58a-4e0b-45f9-8726-a99d6a18c753" class="code code-wrap"><code>const result = (0.1 + 0.2).toFixed(2); // Result is &quot;0.30&quot;</code></pre><h3 id="8948a0d1-0738-4174-9b65-7963583aef80" class="">Quirk 3: Equality Comparisons</h3><p id="dd130cfa-067f-4eb1-9c8c-b00feffc5eb5" class="">JavaScript’s equality comparisons (<code>==</code> and <code>===</code>) can lead to unexpected results due to type coercion.</p><pre id="5d664f5c-b564-4c0d-a2c5-0dfc0ef30db8" class="code code-wrap"><code>console.log(5 == &quot;5&quot;); // true
+console.log(5 === &quot;5&quot;); // false</code></pre><p id="3406703e-8235-4e35-b7b3-7def2c1bc496" class=""><strong>Explanation:</strong> The <code>==</code> operator performs type coercion, so it considers values of different types equal if they can be converted to the same value. In contrast, <code>===</code> performs strict equality checks and considers both the value and the type. To avoid unexpected behavior, it’s recommended to use <code>===</code> for equality comparisons.</p><h3 id="ffcfdb8f-2b52-4fed-a2c4-f506018edf38" class="">Quirk 4: Hoisting</h3><p id="1dfa2647-b358-42f2-a65b-e81520d408eb" class="">JavaScript hoists variable declarations to the top of their containing scope, which can lead to unexpected behavior.</p><pre id="cfb3ae64-d23e-4075-9bef-c52dca8ac3ff" class="code code-wrap"><code>console.log(x); // undefined
+var x = 10;</code></pre><p id="ec74fc14-d909-48fb-bbd4-5c4224d0cb62" class=""><strong>Explanation:</strong> This happens because variable declarations are hoisted, but their assignments are not. So, <code>var x</code> is hoisted to the top, but its value assignment happens later in the code. To avoid hoisting-related quirks, consider using <code>let</code> and <code>const</code> instead of <code>var</code>, as they have block scope and don’t exhibit this behavior.</p><h3 id="22e4df69-b602-4959-bbda-5f49a7576a25" class="">Quirk 5: NaN</h3><p id="6a7196d5-9b87-4cdc-8d2d-1e6001ddac16" class="">JavaScript has a special value called <code>NaN</code> (Not-a-Number), which has some peculiar properties.</p><pre id="3043d475-e1a5-42b2-9f5e-628fc0f26d61" class="code code-wrap"><code>console.log(typeof NaN); // &quot;number&quot;
+console.log(NaN === NaN); // false</code></pre><p id="d8194a0f-3b17-4e5c-a054-028ac43609c7" class=""><strong>Explanation:</strong> <code>NaN</code> is of type <code>&quot;number&quot;</code>, which might be unexpected. Also, <code>NaN</code> is not equal to itself, which is why <code>NaN === NaN</code> returns <code>false</code>. To check for <code>NaN</code>, you should use the <code>isNaN()</code> function or the <code>Number.isNaN()</code> method.</p><pre id="9a561014-50c6-46f4-9541-51b0e58337a9" class="code code-wrap"><code>console.log(Number.isNaN(NaN)); // true</code></pre><p id="2753483d-e489-4d2f-9136-e08dabd96ee1" class="">These quirks and unexpected behaviors are part of JavaScript’s design, and they can sometimes catch developers off guard. Being aware of them and understanding how they work can help you write more robust and predictable programs.</p><h3 id="993a97e9-a3df-4d2e-a1d5-97dd9a78f78f" class="">More JavaScript Operator Quirks</h3><p id="1b3d96f8-fbe8-496a-b047-feb63c580567" class="">JavaScript has more quirks and unexpected behaviors related to operators. Let’s explore some additional quirks:</p><h3 id="6b610f34-fee3-4bcf-9b7a-b35052b8295f" class="">Quirk 6: Addition vs. Concatenation</h3><p id="452f1c8e-5a3e-478d-b71a-c83ac815ba03" class="">JavaScript’s <code>+</code> operator can be used for both addition and string concatenation, leading to interesting outcomes.</p><pre id="18078846-50ee-4ec3-9a5a-dc7c725cc624" class="code code-wrap"><code>const result = 5 + &quot;5&quot;; // Result is &quot;55&quot;</code></pre><p id="a912137f-5bb0-4c59-960d-9d78c9602fb3" class=""><strong>Explanation:</strong> When you use the <code>+</code> operator with one operand being a string, JavaScript treats it as concatenation. In this case, <code>5</code> is converted to a string, and then both strings are concatenated. To ensure numeric addition, you should convert the string to a number explicitly.</p><pre id="41326a8a-bd2f-4142-bedb-f321ecc87d5e" class="code code-wrap"><code>const result = 5 + Number(&quot;5&quot;); // Result is 10</code></pre><h3 id="7f9f8765-4c3f-4de3-aaea-2b56796ac8b1" class="">Quirk 7: The Unary <code>+</code> Operator</h3><p id="4d15d20f-6362-443d-a409-2cc3384269e4" class="">The unary <code>+</code> operator can be used to convert a value to a number, but it can have unexpected results with certain strings.</p><pre id="2193d717-8e1e-499b-947f-90eb6f6d715b" class="code code-wrap"><code>const result = +&quot;5&quot;; // Result is 5
+const unexpected = +&quot;5abc&quot;; // Result is NaN</code></pre><p id="e64e5a6c-1918-4da4-9fd1-bc758665a7e4" class=""><strong>Explanation:</strong> The unary <code>+</code> operator attempts to convert the operand to a number. If the operand is a valid number in string format, it works as expected. However, if the string contains non-numeric characters, it results in <code>NaN</code> (Not-a-Number).</p><h3 id="ae90f609-acac-4f72-95e3-c1a30d205d31" class="">Quirk 8: Automatic Semicolon Insertion (ASI)</h3><p id="35370728-cada-4fac-acf5-ce2537fe6a4f" class="">JavaScript has a feature called Automatic Semicolon Insertion (ASI) that automatically inserts semicolons in some cases, potentially leading to unexpected behavior.</p><pre id="75f6a781-846c-4000-a310-d484c336e8b4" class="code code-wrap"><code>function example() {
+  return;
+  {
+    value: 42;
+  }
+}
+console.log(example()); // undefined</code></pre><p id="e3f666b0-ad86-4419-beda-ed3e95e049c3" class=""><strong>Explanation:</strong> ASI adds a semicolon after the <code>return</code> statement, effectively ending the function early. This can be surprising if you intended to return an object literal. To avoid this quirk, place the opening curly brace on the same line as the <code>return</code> statement.</p><pre id="4f7da72e-4c16-4851-9791-db62e31fcefa" class="code code-wrap"><code>function fixedExample() {
+  return { value: 42 };
+}
+console.log(fixedExample()); // { value: 42 }</code></pre><h3 id="5db9cd39-b17b-4576-8c3b-230ced98e9ce" class="">Quirk 9: Type Coercion with Loose Equality (<code>==</code>)</h3><p id="53aae1fa-a289-44bc-93a7-06d07340bc39" class="">JavaScript’s loose equality operator (<code>==</code>) can lead to unexpected results due to type coercion.</p><pre id="40850ef5-324c-4ef1-99c8-c816ce27b3af" class="code code-wrap"><code>console.log(1 == true); // trueconsole.log(&#x27;0&#x27; == false); // true</code></pre><p id="a017b09a-ad02-4ea8-bfae-7ecfef3633bf" class=""><strong>Explanation:</strong> The <code>==</code> operator performs type coercion, converting values to a common type before comparison. This can lead to surprising outcomes, as JavaScript tries to make the values on both sides of the operator comparable. To avoid this quirk, use strict equality (<code>===</code>) for precise comparisons.</p><h3 id="20bc510d-9603-4cb2-a8fa-1705bb468c01" class="">Quirk 10: Operator Precedence</h3><p id="c7f761e9-2836-4b73-ae02-96bb59b83a7a" class="">JavaScript’s operator precedence can sometimes lead to unexpected evaluation order. For example:</p><pre id="0f6107df-8ae9-4c07-b12d-ca39c5ec0fee" class="code code-wrap"><code>const result = 1 + 2 * 3; // Result is 7, not 9</code></pre><p id="4609df69-9817-4b2b-802b-f9bc41e8a06f" class=""><strong>Explanation:</strong> Operator precedence dictates that multiplication (<code>*</code>) has higher precedence than addition (<code>+</code>). So, <code>2 * 3</code> is evaluated first, resulting in <code>6</code>, which is then added to <code>1</code>. To ensure the desired order of evaluation, use parentheses to explicitly specify the order.</p><pre id="68c943cd-125c-45c4-b917-66138f49c216" class="code code-wrap"><code>const result = (1 + 2) * 3; // Result is 9</code></pre><p id="c02c6656-5897-40bb-ad83-7e9426a71b21" class="">These quirks are important to be aware of when working with JavaScript to avoid unexpected behavior in your code. Understanding them can help you write more robust and predictable programs.</p><h3 id="08e33f4d-fc90-4ea6-8c29-585e56f124d4" class="">More Quirks Related to Operators</h3><p id="84b39b59-5ec3-4fe5-9ecc-6e0671c5e8d8" class="">Let’s explore some additional quirks and unexpected behaviors related to JavaScript operators:</p><h3 id="02d82ae6-fe57-4ce3-86cc-d40a45cb0b36" class="">Quirk 11: Unary Plus and Empty Strings</h3><p id="63054d1c-942b-44f6-98ba-c2da869f2c4e" class="">Unary plus (<code>+</code>) can have unexpected behavior when used with empty strings.</p><pre id="1c062458-e9b3-4c7f-aeba-8acd83d3c5a5" class="code code-wrap"><code>const emptyString = &quot;&quot;;
+console.log(+emptyString); // Result is 0</code></pre><p id="d58c4ada-bdf9-42f5-9df1-3d58c92b2798" class=""><strong>Explanation:</strong> The unary plus operator is typically used to convert strings to numbers. However, when used with an empty string, it converts it to <code>0</code>, which might not be intuitive. To avoid this quirk, consider using explicit conversion methods like <code>parseInt()</code> or <code>Number()</code>.</p><pre id="7f31bf18-94b3-45b0-bac7-cb7a277da463" class="code code-wrap"><code>const emptyString = &quot;&quot;;
+console.log(Number(emptyString)); // Result is NaN (explicit conversion)</code></pre><h3 id="de135ebf-3f63-4a8c-9d7d-332966a40906" class="">Quirk 12: NaN in Numeric Operations</h3><p id="a926e9cf-ce8b-4059-8fbc-86c91d0a0659" class="">Operations involving <code>NaN</code> often result in unexpected outcomes.</p><pre id="9ee0fa20-3409-4c2c-9ba3-1ad157e09e25" class="code code-wrap"><code>console.log(NaN + 5); // Result is NaN
+console.log(NaN * 2); // Result is NaN</code></pre><p id="fb1ec72f-12f1-4d2c-a2c5-dc2e5e852e49" class=""><strong>Explanation:</strong> <code>NaN</code> is a special value representing “Not-a-Number,” and any mathematical operation involving <code>NaN</code> also results in <code>NaN</code>. It’s important to check for <code>NaN</code> before performing calculations to avoid unexpected results.</p><h3 id="b97d3d5a-a3a8-4d64-b776-c1ce69012fe0" class="">Quirk 13: Array Equality</h3><p id="ab0b6f88-8329-4a0c-99b7-5a32f643bccf" class="">Arrays in JavaScript don’t behave as expected when compared for equality.</p><pre id="7029e97f-fdc8-4e49-ae16-3cf76589020f" class="code code-wrap"><code>const arr1 = [1, 2, 3];
+const arr2 = [1, 2, 3];
+console.log(arr1 == arr2);
+// Result is false</code></pre><p id="3d72caca-6147-4ddb-96ae-fbecd88f6df8" class=""><strong>Explanation:</strong> Arrays in JavaScript are compared by reference, not by their contents. So, even if two arrays have the same elements, they are not considered equal unless they refer to the same array object. To compare their contents, you need to implement a custom comparison or use a library like Lodash.</p><h3 id="fea09776-494c-4fb8-9350-708711bd11b8" class="">Quirk 14: Order of Evaluation in Logical Operators</h3><p id="b4a7cf03-112f-4c6a-91cc-f62d3af8194f" class="">The order of evaluation in logical operators (<code>&amp;&amp;</code> and <code>||</code>) can lead to unexpected results.</p><pre id="7003cc58-9096-43a1-81dc-81394f7ff8d0" class="code code-wrap"><code>const result1 = (true &amp;&amp; true) || false; // Result is true
+const result2 = (false &amp;&amp; false) || false; // Result is false</code></pre><p id="7160d244-f6fc-4100-b3bf-b3e06e73f35c" class=""><strong>Explanation:</strong> Logical operators in JavaScript are short-circuiting, which means they stop evaluating as soon as the result is determined. In the example, <code>false &amp;&amp; true</code> evaluates to <code>false</code>, but <code>false || true</code> evaluates to <code>true</code>. </p><h3 id="509a3015-ca88-48d8-b1f2-b5b9a7a1e71c" class="">Quirk 15: Bitwise Operators on Floats</h3><p id="b11a95ac-02d9-46fb-8cfe-cfafd332068b" class="">Bitwise operators (<code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code>) are typically used with integers, but they can also be applied to floating-point numbers.</p><pre id="febf4eea-ef08-4c3e-a74c-8092bf3360ed" class="code code-wrap"><code>const result = 5.5 | 2.2; // Result is 7, not an error</code></pre><p id="75eb1142-573f-4201-a465-dbbdc5f22787" class=""><strong>Explanation:</strong> JavaScript allows bitwise operators on floating-point numbers, but they are first converted to integers before the operation. So, <code>5.5</code> becomes <code>5</code>, and <code>2.2</code> becomes <code>2</code> before the <code>|</code> operation is performed. This can lead to unexpected results when using bitwise operators with floats.</p><p id="c0f73fa0-a33e-449d-9e08-6eda5070a668" class="">These quirks and unexpected behaviors are part of JavaScript’s design, and they can affect the way code behaves in certain situations. Understanding them is crucial for writing reliable JavaScript code.</p><h3 id="aa93a8e7-57c5-471e-a456-b465e90b817b" class="">More Quirks Related to Operators</h3><p id="8257945b-5bd9-443f-aa49-29d0263df881" class="">Here are a few more quirks and unexpected behaviors related to JavaScript operators that are commonly discussed in interviews:</p><h3 id="5de99d2e-70d0-4825-9ebd-3ec33c184f48" class="">Quirk 16: Unary Minus with Strings</h3><p id="8387121c-6a60-4bfb-b841-64729bbdd93c" class="">The unary minus (<code>-</code>) operator can have unexpected behavior when used with strings.</p><pre id="2e25d712-762b-4433-8267-f5a5f6781808" class="code code-wrap"><code>const result = -&quot;5&quot;; // Result is -5
+const unexpected = -&quot;5abc&quot;; // Result is NaN</code></pre><p id="1d3b77f9-df70-4d60-9bea-639da545b9bf" class=""><strong>Explanation:</strong> Similar to the unary plus operator, the unary minus operator attempts to convert the operand to a number. If the string contains valid numeric characters, it works as expected. However, if the string contains non-numeric characters, it results in <code>NaN</code> (Not-a-Number).</p><h3 id="eae3c914-2252-432b-bce3-992daf6772bd" class="">Quirk 17: Equality with <code>null</code> and <code>undefined</code></h3><p id="da88e5e8-498d-4108-8702-26d508ab2087" class="">Equality comparisons involving <code>null</code> and <code>undefined</code> can lead to surprising results.</p><pre id="139c0304-f708-47b6-a1c3-38671189943a" class="code code-wrap"><code>console.log(null == undefined); // true
+console.log(null === undefined); // false</code></pre><p id="0f7ffd5f-57c8-4507-9dfc-9c04a3f34284" class=""><strong>Explanation:</strong> In loose equality comparisons (<code>==</code>), <code>null</code> and <code>undefined</code> are considered equal to each other but not to any other value. In strict equality comparisons (<code>===</code>), they are not equal because they are of different types. This can be confusing, so it’s important to use strict equality for clarity.</p><h3 id="b8b5a5f4-3c55-4909-9ae6-420809efd78d" class="">Quirk 18: Object Property Access</h3><p id="ba3ecf30-f63b-47c2-aa8c-3b5a1bd750d6" class="">Accessing non-existent properties of an object doesn’t result in an error.</p><pre id="4d7c4938-d179-4eb2-8ce2-1cb03033f78f" class="code code-wrap"><code>const obj = { name: &quot;Alice&quot; };
+console.log(obj.age); // Result is undefined, no error</code></pre><p id="ab9dc1be-1a7d-4fcd-bbc6-b9ca4027ff17" class=""><strong>Explanation:</strong> In JavaScript, if you try to access a property that doesn’t exist on an object, it returns <code>undefined</code> instead of throwing an error. This can lead to subtle bugs if you assume that accessing a non-existent property will raise an error.</p><h3 id="659ca0f6-95d7-40ed-ac2d-91e4e55e3fac" class="">Quirk 19: Floating-Point Comparison</h3><p id="195c7154-a889-47ad-9e9d-72984e7f8473" class="">Comparing floating-point numbers for equality can be problematic due to precision issues.</p><pre id="51df2fc8-f5e4-4404-b0ad-f2be67d873db" class="code code-wrap"><code>console.log(0.1 + 0.2 === 0.3); // Result is false</code></pre><p id="eb4518c9-8532-4b5d-bd35-9899e9da7ed6" class=""><strong>Explanation:</strong> As mentioned earlier, JavaScript’s floating-point representation can’t always precisely represent decimal numbers, leading to rounding errors. When comparing floating-point numbers for equality, it’s recommended to use a tolerance or check that the difference is within an acceptable range.</p><h3 id="9413544b-3022-40e5-ade8-1dee8d796844" class="">Quirk 20: Bitwise NOT (<code>~</code>) and Negative Numbers</h3><p id="63924b51-39e1-42f7-8c86-b1b6954ce465" class="">The bitwise NOT (<code>~</code>) operator can produce unexpected results with negative numbers.</p><pre id="576dd7c0-29b0-4e77-a126-9297cac73fa7" class="code code-wrap"><code>console.log(~5); // Result is -6, not 10</code></pre><p id="f31104a7-0bef-494a-a59a-0810bec1c98f" class=""><strong>Explanation:</strong> The bitwise NOT operator in JavaScript inverts the bits of a number and treats it as a signed 32-bit integer. This can lead to negative results for positive numbers. To obtain the expected result, you can use additional bitwise operations to limit the range or convert to unsigned.</p><h3 id="7f6e7a31-ffd3-4cb6-a455-a8749369015f" class="">More Quirks Related to Operators</h3><p id="5440b6ac-9084-4b89-8dde-252b572615ce" class="">Here are some additional quirks and unexpected behaviors related to JavaScript operators that are commonly discussed in interviews:</p><h3 id="117446a3-1c07-441c-93d1-1d03ae7b808f" class="">Quirk 21: Type Conversion in Comparison</h3><p id="4befbfc6-a635-435b-95b7-b4ae711f3c9b" class="">JavaScript’s type conversion in comparisons can lead to unexpected results.</p><pre id="5c904970-c5a4-42b5-81e3-212d765a394b" class="code code-wrap"><code>console.log(&quot;5&quot; &gt; 3); // Result is true
+console.log(&quot;10&quot; &lt; &quot;2&quot;); // Result is true</code></pre><p id="eb122eff-6352-461f-8001-45c08caae8b4" class=""><strong>Explanation:</strong> JavaScript performs type coercion when comparing values of different types. In the first example, <code>&quot;5&quot;</code> is converted to a number, resulting in <code>5</code>, which is greater than <code>3</code>. In the second example, the strings are compared lexicographically, not numerically.</p><h3 id="72c50710-5ba4-4f84-9e46-272030b9b843" class="">Quirk 22: <code>NaN</code> Equality</h3><p id="bb1852b0-2ef6-4457-bf54-4cb32595058f" class="">Comparing values to <code>NaN</code> using equality operators gives surprising results.</p><pre id="caf3aae7-2310-4c85-b905-3d99e125c187" class="code code-wrap"><code>console.log(NaN == NaN); // Result is false
+console.log(NaN === NaN); // Result is false</code></pre><p id="185df94e-a843-4f5e-b192-0ad3d375a573" class=""><strong>Explanation:</strong> <code>NaN</code> is a special value that represents “Not-a-Number,” and it is considered unequal to itself in JavaScript. Both loose (<code>==</code>) and strict (<code>===</code>) equality comparisons return <code>false</code>. To check for <code>NaN</code>, use <code>isNaN()</code> or <code>Number.isNaN()</code>.</p><pre id="ac80c9a2-92d1-408c-a0d7-2e9d60dc5601" class="code code-wrap"><code>console.log(Number.isNaN(NaN)); // true</code></pre><h3 id="0825956f-7912-490b-8ada-0d6f50bd7e10" class="">Quirk 23: <code>null</code> and <code>undefined</code> in Conditional Expressions</h3><p id="573bb63d-a2f9-42a6-a6d7-1811ffbf40bb" class="">Conditional (ternary) expressions can behave unexpectedly with <code>null</code> and <code>undefined</code>.</p><pre id="9a72fd52-3f10-4afe-8ca4-b5c291396769" class="code code-wrap"><code>const result = null ? &quot;true&quot; : &quot;false&quot;; // Result is &quot;false&quot;</code></pre><p id="9856b131-f4fc-49bd-9942-e647ec86c4ef" class=""><strong>Explanation:</strong> In a conditional expression, JavaScript treats <code>null</code> and <code>undefined</code> as falsy values. So, the expression evaluates to the second operand (<code>&quot;false&quot;</code> in this case) when the first operand is <code>null</code>.</p><h3 id="aa1926d8-9e16-4cd5-b81e-cd2d53bb30d1" class="">Quirk 24: Concatenation vs. Addition</h3><p id="863ce764-303c-4a3c-b273-cdaa0226138f" class="">Mixing addition and concatenation can lead to unintended results.</p><pre id="656b74fe-34c0-4d36-99da-48e3e6f81ff3" class="code code-wrap"><code>console.log(5 + &quot;5&quot; + 3); // Result is &quot;553&quot;</code></pre><p id="f36e4c5e-c991-488c-9c73-c826be43730b" class=""><strong>Explanation:</strong> When using the <code>+</code> operator, JavaScript prioritizes string concatenation. So, <code>5</code> and <code>&quot;5&quot;</code> are concatenated to <code>&quot;55&quot;</code>, and then <code>3</code> is concatenated to <code>&quot;553&quot;</code>. To ensure numeric addition, you should convert strings to numbers explicitly.</p><pre id="2d418f87-addf-42ec-96d8-9dc7a9811f52" class="code code-wrap"><code>console.log(5 + Number(&quot;5&quot;) + 3); // Result is 13</code></pre><h3 id="a0a5298f-b965-40ad-bcdc-f562b53a8ad0" class="">Quirk 25: Function Declarations vs. Expressions</h3><p id="6c56e2f6-acb1-41e7-8454-faa2a6cad986" class="">Function declarations and expressions behave differently in terms of hoisting.</p><pre id="8ee6d1d1-4e9c-47c4-a640-5250d4114956" class="code code-wrap"><code>console.log(foo()); // Result is &quot;Hello&quot;
+function foo() {
+  return &quot;Hello&quot;;
+}</code></pre><pre id="b71e4e42-66f8-46a9-9778-29aa96d05cd8" class="code code-wrap"><code>console.log(bar()); // Error: bar is not a function
+const bar = function () {
+  return &quot;World&quot;;
+};</code></pre><p id="2e44bdc8-d285-4f0f-a1cb-69aa8ee719e5" class=""><strong>Explanation:</strong> Function declarations are hoisted to the top of their containing scope, so you can call them before they appear in the code. Function expressions, on the other hand, are not hoisted, and you can’t call them before they are defined.</p><p id="d50459c8-7680-4b57-ab5a-ebb8ffd38cb4" class="">These quirks are part of JavaScript’s behavior and can affect the way code behaves in certain situations. Understanding them can help you write more robust and reliable JavaScript code.</p><h3 id="d7e16e3a-0182-47f1-adfc-e111c401b55a" class="">More Quirks Related to Operators</h3><p id="554039d3-941a-4805-8612-e271cebf8327" class="">Let’s explore some additional quirks and unexpected behaviors related to JavaScript operators:</p><h3 id="cdf85524-784d-4217-865d-9ca32efb9db5" class="">Quirk 26: Comparing Arrays</h3><p id="52c66ead-862e-4b3c-8ea2-dc21351d5613" class="">Comparing arrays using equality operators can produce unexpected results.</p><pre id="b527c4a1-233d-4ec2-a3d6-cca335e137ad" class="code code-wrap"><code>const arr1 = [1, 2, 3];
+const arr2 = [1, 2, 3];
+console.log(arr1 == arr2); // Result is false</code></pre><p id="f524f1ae-541c-4ec9-b44b-44b5de211314" class=""><strong>Explanation:</strong> JavaScript compares objects (including arrays) by reference, not by their content. So, even if two arrays have the same elements, they are considered unequal because they refer to different objects. To compare their content, you need to implement a custom comparison or use a library like Lodash.</p><h3 id="8cd72901-e1fc-4b29-b62f-c51e21143137" class="">Quirk 27: The <code>delete</code> Operator</h3><p id="727badf4-55f2-426d-81d4-faf773272c0e" class="">The <code>delete</code> operator can be used to remove properties from objects, but it has limitations.</p><pre id="e7ead427-4f24-4fb3-8ef8-0a7324071cc2" class="code code-wrap"><code>const obj = { name: &quot;Alice&quot;, age: 30 };
+delete obj.name; // Deletes the &#x27;name&#x27; property
+console.log(obj.name); // Result is undefined</code></pre><pre id="4085c20a-98b8-4657-94b2-10b6be748cd3" class="code code-wrap"><code>const arr = [1, 2, 3];
+delete arr[1]; // Deletes the element at index 1
+console.log(arr); // Result is [1, undefined, 3]</code></pre><p id="ad5eed5f-cd82-474f-b77a-f54d9fa31b5d" class=""><strong>Explanation:</strong> The <code>delete</code> operator can remove properties from objects and elements from arrays, but it may not always behave as expected. In arrays, it leaves a hole with an <code>undefined</code> value rather than shifting elements. In some cases, it can’t delete properties marked as non-configurable.</p><h3 id="5c73f15a-3bde-4eca-8617-ed16fb1e137f" class="">Quirk 28: Global Variables</h3><p id="d2e81d22-029e-4f01-a98a-0f8657c1fb49" class="">Variables declared without <code>var</code>, <code>let</code>, or <code>const</code> become global variables, even when declared inside a function.</p><pre id="2eac29e3-1be1-4061-a438-8b57b871e8c8" class="code code-wrap"><code>function createGlobalVariable() {
+  globalVar = 42;
+}
+createGlobalVariable();
+console.log(globalVar); // Result is 42</code></pre><p id="c6600093-d058-4cee-a745-c233d2553d3a" class=""><strong>Explanation:</strong> Variables declared without a declaration keyword (<code>var</code>, <code>let</code>, or <code>const</code>) become global variables. This can lead to unintended global variable creation and unexpected side effects. To avoid this quirk, always declare variables with <code>var</code>, <code>let</code>, or <code>const</code>.</p><h3 id="73786e62-8122-499b-9d67-bce6b95a34d5" class="">Quirk 29: The <code>in</code> Operator</h3><p id="888e1efe-2809-4904-b00b-4358058b13dc" class="">The <code>in</code> operator is used to check if an object has a specific property, but it can produce surprising results with inherited properties.</p><pre id="06496355-7b3d-4299-8d7c-d38d795ac3fe" class="code code-wrap"><code>const obj = { name: &quot;Alice&quot; };
+console.log(&quot;name&quot; in obj); // Result is true
+console.log(&quot;toString&quot; in obj); // Result is true (inherited property)</code></pre><p id="b3eddfbf-8d6b-4369-8506-4073dcf273a3" class=""><strong>Explanation:</strong> The <code>in</code> operator checks for the existence of a property, including properties inherited from the object’s prototype chain. In the example, <code>&quot;toString&quot;</code> is an inherited property from <code>Object.prototype</code>. To check for own properties only, use <code>hasOwnProperty()</code>.</p><pre id="1b570b4d-9391-4f76-bc1e-66c24d407c03" class="code code-wrap"><code>console.log(obj.hasOwnProperty(&quot;name&quot;)); // Result is true
+console.log(obj.hasOwnProperty(&quot;toString&quot;)); // Result is false</code></pre><h3 id="8d7602b1-1973-448c-aae3-0a5ce79494db" class="">Quirk 30: <code>with</code> Statement</h3><p id="bdcf8d97-c0e6-44dd-9697-bed31622a62a" class="">The <code>with</code> statement allows you to simplify property access, but it can lead to unexpected variable declarations.</p><pre id="dcf0166c-4e1c-4514-81e4-c20dc4880a84" class="code code-wrap"><code>const obj = { x: 10, y: 20 };
+with (obj) {
+  const result = x + y; // Result is 30
+}
+console.log(result); // Error: result is not defined</code></pre><p id="ed7662fc-7149-445a-957d-a99134407fa6" class=""><strong>Explanation:</strong> Variables declared inside a <code>with</code> block become properties of the object, which can lead to unexpected variable shadowing and scope issues. The use of <code>with</code> is discouraged in modern JavaScript due to its potential for creating hard-to-maintain code.</p><p id="7eca5955-7fce-4c70-9253-e12667e5170d" class="">These quirks are important to be aware of when working with JavaScript to avoid unexpected behavior in your code. Understanding them can help you write more robust and predictable programs.</p><p id="85bcc7cb-17a8-4841-9459-792aa9de7eee" class="">JavaScript, like any programming language, has its quirks and unexpected behaviors. Being aware of these quirks and understanding why they occur is essential for writing reliable and maintainable JavaScript code. Always strive for clarity and consistency in your code to minimize the impact of these quirks.</p><p id="90cc422c-2b97-45fe-a74b-9850832f367c" class="">
+</p></div></article></body></html>

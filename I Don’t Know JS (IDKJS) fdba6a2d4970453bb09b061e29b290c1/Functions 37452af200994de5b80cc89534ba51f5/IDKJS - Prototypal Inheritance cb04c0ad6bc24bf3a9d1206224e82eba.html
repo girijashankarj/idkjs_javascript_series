@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>I Don’t Know JS (IDKJS) </title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>IDKJS - Prototypal Inheritance</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -673,6 +673,91 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="fdba6a2d-4970-453b-b09b-061e29b290c1" class="page sans"><header><img class="page-cover-image" src="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Main_Header.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚧</span></div><h1 class="page-title">I Don’t Know JS (IDKJS) </h1><p class="page-description"></p></header><div class="page-body"><h2 id="9feab9f2-102b-443e-b25e-2725fbf103fb" class="">(Under Development)</h2><p id="fd3fd449-9780-45e1-b610-6195fb730ee1" class="">
-</p><p id="68527bdb-b303-4428-b334-9737dcedf00e" class="">After learning and coding JavaScript for more than 5 years, I am still surprised by the quirks and mysteries of JavaScript. In this guide, I’ve created a simple walkthrough for someone who is just starting or revisiting JavaScript. I hope you will find this content helpful, and I’m open to suggestions, improvements, and technical discussions.</p><h2 id="2020eb64-4af2-4497-a143-1f3218ac09c1" class="">Table of Contents</h2><p id="2ee53060-5bac-4a42-be5e-aee051b6bfa0" class="">
-</p><figure id="9da959c1-f175-42e7-a5df-fcc311db4fea" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Basics%209da959c1f17542e7a5dffcc311db4fea.html">Basics</a></figure><figure id="d9254e0a-1fc9-477e-8be0-0faba122ef8b" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Operators%20d9254e0a1fc9477e8be00faba122ef8b.html">Operators</a></figure><figure id="37452af2-0099-4de5-b80c-c89534ba51f5" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Functions%2037452af200994de5b80cc89534ba51f5.html">Functions</a></figure><figure id="8c6be6ff-d96d-4492-a7ed-7f4c1116f64d" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Scope%208c6be6ffd96d4492a7ed7f4c1116f64d.html">Scope</a></figure><figure id="7ef47b27-503d-4eda-ab3f-9884153215b9" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/OOPS%207ef47b27503d4edaab3f9884153215b9.html">OOPS</a></figure><figure id="3538b483-f873-4e10-8528-62881533ae50" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Async%203538b483f8734e10852862881533ae50.html">Async </a></figure><figure id="0e1917ef-c8ba-43a3-b05d-90e7ffe62dc1" class="link-to-page"><a href="I%20Don%E2%80%99t%20Know%20JS%20(IDKJS)%20fdba6a2d4970453bb09b061e29b290c1/Quirks%200e1917efc8ba43a3b05d90e7ffe62dc1.html">Quirks</a></figure><h1 id="39335f27-985f-4dd7-9d31-1182502c7b43" class="">Introduction</h1><p id="19ea4584-fcb8-4390-b12e-537d906c0f13" class="">Welcome to the world of JavaScript, where surprises and mysteries await even the most seasoned developers. This guide is designed to help you navigate the intricate landscape of JavaScript and make sense of its quirks.</p><h2 id="782ca1ae-e450-43a2-be5e-edb5797d6984" class="">The JavaScript Journey</h2><p id="9603efaa-506b-4d90-a1fd-5ffe53bfd4dc" class="">JavaScript has come a long way since its inception. We’ll take a brief look at its history and evolution.</p><h2 id="127b0f7e-7697-4109-bac8-c55e5981284e" class="">Basic Concepts</h2><p id="6005912b-e533-43b7-9a58-ba28bfb34828" class="">Let’s start with the fundamentals of JavaScript.</p><h3 id="484f339f-3a63-4a0b-965a-b1e2b9aa7edf" class="">Variables</h3><p id="39b0c5f8-3351-4331-9399-56368c4cd74d" class="">Learn how to declare and use variables in JavaScript.</p><h3 id="de5a1b38-098e-43f6-bc5c-fbaad7439644" class="">Data Types</h3><p id="7f6968ef-689e-4347-98ad-3b46ad20d100" class="">Explore the various data types in JavaScript, including numbers, strings, and objects.</p><h3 id="be4bf9be-328b-4e05-bcbd-a98fcb61b5e6" class="">Operators</h3><p id="88399c44-50aa-468e-a052-db4df13e7579" class="">Master the use of operators for arithmetic, comparison, and logical operations.</p><h2 id="00518b07-1899-4601-be90-ed0fe9ab6aab" class="">Control Flow</h2><p id="95c0fb49-9ff1-4d04-8dcb-57d58bd1586b" class="">Understand how JavaScript controls the flow of your code.</p><h3 id="c649ae10-9ac1-4602-88f4-accb74c43f17" class="">Conditional Statements</h3><p id="6b0d29af-74b6-4248-8924-53e34df5b5a1" class="">Learn about if statements, switch statements, and ternary operators for decision-making.</p><h3 id="686e39b5-6068-40de-abbb-8e5a16fc715e" class="">Loops</h3><p id="c97c41f9-b0c5-4715-b757-ccb31a61aa5c" class="">Discover different types of loops, including for loops and while loops.</p><h2 id="39bde69e-5255-40d9-af57-49c52301d3c4" class="">Functions</h2><p id="48a9820b-ef92-4ea2-9a0c-1797748f2676" class="">Functions are a crucial part of JavaScript. Let’s dive into them.</p><h3 id="d7ab14ab-6395-479b-8d20-2c9eaef2711e" class="">Function Declarations</h3><p id="4bfe49d5-62fa-4ec5-92b2-b8543044815c" class="">Create functions using function declarations.</p><h3 id="60330c9b-6573-41e6-b678-dc0c12b08eb7" class="">Arrow Functions</h3><p id="9c3e9d8b-0e09-4d31-b6b5-e0e56e3593e6" class="">Explore the concise syntax of arrow functions.</p><h3 id="d279c33c-92be-45df-9146-18d0e02ae62a" class="">Closures</h3><p id="f8a6c3f5-370d-40f5-a9fa-c4bdb72ddb24" class="">Delve into the concept of closures and their practical applications.</p><h2 id="1d563a81-faa6-45a0-9b7a-1b20041e6a44" class="">Objects</h2><p id="7af90154-3f1f-4c16-96d6-e63600829e9e" class="">Objects are a fundamental data structure in JavaScript.</p><h3 id="e610cd9e-1948-4183-9363-aceddf73c5d7" class="">Object Creation</h3><p id="157c4f95-9555-49ba-b640-905800faeda5" class="">Learn multiple ways to create and work with objects.</p><h3 id="cf1987a8-55e7-48b4-96c8-0d1194d4633b" class="">Prototypes</h3><p id="9e059f4a-97ed-4215-85dd-c604a493fa67" class="">Explore JavaScript’s unique approach to inheritance with prototypes.</p><h2 id="e8ed3851-77ce-48eb-9455-9bd4c6b739e1" class="">Asynchronous JavaScript</h2><p id="05bb936d-6cc5-4ff6-a854-d0d54f087f11" class="">JavaScript is known for its asynchronous nature. Learn how to deal with it.</p><h3 id="dc17f60c-afbc-4ad1-8ca6-170b544ed57c" class="">Callbacks</h3><p id="8d0da41a-719c-4f42-9a19-b44f9c2028eb" class="">Understand callbacks and how they help manage asynchronous code.</p><h3 id="d741568c-906d-4b50-aec9-70b6d4d40343" class="">Promises</h3><p id="8bdd9674-2bb4-4fe7-9366-ed4884ce82f1" class="">Explore promises for more structured asynchronous programming.</p><h3 id="82298871-ade6-4745-9079-ad0c0873a07f" class="">Async/Await</h3><p id="47a77ca2-f32d-4fb7-abfb-8328466d1ff4" class="">Learn about the async/await syntax for handling asynchronous operations.</p><h2 id="b53d1f4c-5cca-42fa-9eba-66f56790b803" class="">Scope and Hoisting</h2><p id="12b68ac4-1b51-405b-a40e-fb352e9b7c51" class="">Understand how variable scope and hoisting work in JavaScript.</p><h2 id="6106f22b-ba6a-402a-abb2-1f0c45bc13ab" class="">Event Handling</h2><p id="11f1800f-8c7e-41c8-bfd9-3a7c45c7c64e" class="">JavaScript is often used for handling events in web applications.</p><h2 id="661a403a-5cb0-40b9-9d03-5be25df4411a" class="">DOM Manipulation</h2><p id="bcfc011e-006e-4218-b257-0e3982499106" class="">Learn how to manipulate the Document Object Model (DOM) with JavaScript.</p><h2 id="9ea080d7-546a-4808-8a26-f4b5ff5b851a" class="">Modules</h2><p id="2624b3a8-8429-4a71-a64f-95cea6b76ac6" class="">Discover how to organize your code using modules.</p><h2 id="e0abd025-e185-4c40-838d-1f64f1d2c588" class="">Debugging</h2><p id="f05fc9ab-f50a-43a9-acc1-9c5bba1f33f2" class="">Learn debugging techniques to identify and fix issues in your JavaScript code.</p><h2 id="12d0194b-fc9a-4538-b524-0bb9b340831c" class="">Performance Optimization</h2><p id="80a2948b-6522-4693-be27-9322b082f384" class="">Optimize your JavaScript code for better performance.</p><h2 id="b3d33db7-d34b-43fc-be53-9e4be371f4b6" class="">JavaScript Ecosystem</h2><p id="3b048224-fe8f-45c6-bbd0-1dc608eb8241" class="">Explore the broader JavaScript ecosystem and its key components.</p><h3 id="3c2fb24f-d9a8-4bf8-b86e-bdd54da12361" class="">Node.js</h3><p id="26d0c3dd-f457-4444-b124-d8e2687b60ea" class="">Learn about server-side JavaScript with Node.js.</p><h3 id="11409f1c-3f59-4bd7-a919-618a9a72402a" class="">npm</h3><p id="2293dcfb-cb14-45e5-ad47-76b771f7dc34" class="">Discover the Node Package Manager (npm) for managing JavaScript packages.</p><h2 id="87589dba-f141-440c-b974-9132ab3787dc" class="">Conclusion</h2><p id="c724b7eb-c90f-4dc9-97ad-223a7bb4dcb8" class="">JavaScript is a fascinating and ever-evolving language. I hope this guide helps you on your journey to mastering it. Feel free to reach out for discussions and improvements.</p><h1 id="6bca7a98-5e1f-45bf-9048-86061c20eef8" class=""><em>Special thanks and copyright to respective owners. Special thanks to YDKJS, OpenAPI, Google and the open-source community for images and content.</em></h1></div></article></body></html>
+</style></head><body><article id="cb04c0ad-6bc2-4bf3-a9d1-206224e82eba" class="page sans"><header><img class="page-cover-image" src="IDKJS%20-%20Prototypal%20Inheritance%20cb04c0ad6bc24bf3a9d1206224e82eba/Prototypal.png" style="object-position:center 50%"/><h1 class="page-title">IDKJS - Prototypal Inheritance</h1><p class="page-description"></p></header><div class="page-body"><h1 id="81002ad0-0a23-406c-8740-9259e6794b2e" class="">Prototypal Inheritance in JavaScript</h1><p id="826ef9c5-ab88-4329-a058-ff0081f3f449" class="">Prototypal inheritance is a fundamental concept in JavaScript that allows objects to inherit properties and methods from other objects through their prototypes. This guide covers key aspects of prototypal inheritance in JavaScript.</p><h2 id="08bffd00-7bd5-4309-a3c0-444e30a05943" class="">Outline</h2><ol type="1" id="68ca841f-2944-445e-a420-f5bd4f1a22d5" class="numbered-list" start="1"><li>What is a Prototype?</li></ol><ol type="1" id="3e8bc593-742c-4867-a255-d48f8b8f0f27" class="numbered-list" start="2"><li>Prototype Equality: <code>__proto__</code> vs. <code>prototype</code></li></ol><ol type="1" id="ab808731-376b-4b1a-946c-2cc9f8fd20c9" class="numbered-list" start="3"><li>Prototypal Inheritance</li></ol><ol type="1" id="dba0052e-2800-4854-9439-2799af67eea5" class="numbered-list" start="4"><li>Achieving Prototypal Inheritance in Regular Functions</li></ol><ol type="1" id="1e61fdce-ee1d-406b-8988-636b737788b2" class="numbered-list" start="5"><li>Does Changing <code>__proto__</code> Also Update <code>prototype</code>?</li></ol><ol type="1" id="ddff6db0-7dbe-4cdb-b0a0-2ded1427103a" class="numbered-list" start="6"><li>The <code>Object.getPrototypeOf()</code> Method</li></ol><ol type="1" id="c249b932-b0fc-42f4-abe7-6449572d79df" class="numbered-list" start="7"><li>Overriding Prototypal Methods</li></ol><ol type="1" id="659947bc-8435-44fa-95b5-fd3debab974e" class="numbered-list" start="8"><li>The <code>hasOwnProperty()</code> Method</li></ol><ol type="1" id="2b0bfc52-52c1-4d4c-9640-993b3a053463" class="numbered-list" start="9"><li>Multiple Levels of Prototypal Inheritance</li></ol><ol type="1" id="2e8d73e8-9ee5-4ee3-b3a5-60856bb11ddb" class="numbered-list" start="10"><li>Pitfalls and Considerations</li></ol><ol type="1" id="6672e495-2a88-4b56-bfe0-4cee55a07daa" class="numbered-list" start="11"><li>Real-World Examples</li></ol><ol type="1" id="4bcfc15e-000c-499e-82b0-a90541748b73" class="numbered-list" start="12"><li>ES6 <code>class</code> Syntax and Prototypal Inheritance</li></ol><h2 id="c43ea368-d1aa-478e-9b33-4d3939446510" class="">What is a Prototype?</h2><p id="ca21ac93-3aa7-48ac-838d-83cf6e54eedd" class="">In JavaScript, every object has a <code>prototype</code>. A prototype is an object that contains properties and methods that can be shared by other objects. Objects can access these shared properties and methods through their prototype chain.</p><h2 id="cca7aa2c-694f-42d0-a4fe-f4d9e876d06f" class="">Prototype Equality: <code>__proto__</code> vs. <code>prototype</code></h2><ul id="84cdfc8a-bf95-46d7-bf23-0e22f8cb6e7e" class="bulleted-list"><li style="list-style-type:disc"><code>__proto__</code>: It is a special property that references the prototype of an object. It is used to access the object’s prototype.</li></ul><ul id="094d3445-873e-46b5-8ca2-c9d9d3fc7ae4" class="bulleted-list"><li style="list-style-type:disc"><code>prototype</code>: It is a property of constructor functions and is used to define the prototype for objects created with that constructor.</li></ul><h2 id="713b07c0-34cd-4c15-9c6b-ddef79ba8088" class="">Prototypal Inheritance</h2><p id="0cbe495e-70c8-4f9d-9d78-4edeb0d93a31" class="">Prototypal inheritance allows objects to inherit properties and methods from their prototypes. When a property or method is accessed on an object, JavaScript looks for it in the object first. If not found, it searches in the object’s prototype, and this process continues up the prototype chain.</p><h2 id="ba3f5fe8-e530-4e31-bea2-f79f6319fb29" class="">Achieving Prototypal Inheritance in Regular Functions</h2><p id="b4b2b97b-7a35-42cf-afb6-48eeea79bf1a" class="">Prototypal inheritance can be achieved using regular functions. Objects created from a constructor function inherit properties and methods defined in the constructor’s <code>prototype</code>.</p><pre id="7605268c-d4b1-43ea-afa1-ef9ff5187859" class="code code-wrap"><code>// Prototypal Inheritance Example
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function () {
+  console.log(`${this.name} makes a sound.`);
+};
+
+function Dog(name, breed) {
+  Animal.call(this, name);
+  this.breed = breed;
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+
+const myDog = new Dog(&quot;Buddy&quot;, &quot;Golden Retriever&quot;);
+myDog.speak(); // Output: Buddy makes a sound.</code></pre><p id="124eeaee-981f-4408-a1b8-48b227669c54" class="">In this example, <code>Dog</code> inherits the <code>speak</code> method from the <code>Animal</code> prototype.</p><h2 id="98b2201a-e94c-416e-b5c9-a0434c2db5b9" class="">Does Changing <code>__proto__</code> Also Update <code>prototype</code>?</h2><p id="378be27e-762b-4b45-b5e8-6e22ca251860" class="">No, changing an object’s <code>__proto__</code> does not update the <code>prototype</code> of the constructor function. The <code>prototype</code> property of a constructor is used when creating new objects with that constructor.</p><pre id="cc0d4d56-53d5-47eb-b029-a28f8e35fe4d" class="code code-wrap"><code>function Vehicle(make, model) {
+  this.make = make;
+  this.model = model;
+}
+
+function Car(make, model) {
+  Vehicle.call(this, make, model);
+}
+
+const myCar = new Car(&quot;Toyota&quot;, &quot;Camry&quot;);
+
+// Changing __proto__ does not affect prototype
+myCar.__proto__.year = 2020;
+console.log(myCar.year); // Output: 2020
+
+// Changing prototype does not affect __proto__
+Vehicle.prototype.color = &quot;Blue&quot;;
+console.log(myCar.color); // Output: undefined</code></pre><h2 id="d0fe4e7e-871c-46c2-931e-4e03c7850b38" class="">The <code>Object.getPrototypeOf()</code> Method</h2><p id="775cbb38-d641-40d8-a5a1-30822295a40a" class="">You can use the <code>Object.getPrototypeOf()</code> method to access an object’s prototype. It provides an alternative way to interact with prototypes.</p><pre id="d50472ed-0ec1-4c61-acdb-3711d7c56ecf" class="code code-wrap"><code>const myObject = {};
+const proto = Object.getPrototypeOf(myObject);
+console.log(proto === Object.prototype); // Output: true</code></pre><h2 id="1161c90f-b3e9-42c5-9776-bf99d340577a" class="">Overriding Prototypal Methods</h2><p id="3bdec32b-f854-4828-9718-9374dd9638c1" class="">You can override methods inherited from a prototype in a subclass. The overridden method in the subclass takes precedence over the one in the prototype.</p><pre id="5b706a91-be89-4720-809c-3a329da07c3d" class="code code-wrap"><code>// Overriding Prototypal Methods Example
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function () {
+  console.log(`${this.name} makes a sound.`);
+};
+
+function Cat(name, breed) {
+  Animal.call(this, name);
+  this.breed = breed;
+}
+
+Cat.prototype = Object.create(Animal.prototype);
+
+// Override the speak method in Cat
+Cat.prototype.speak = function () {
+  console.log(`${this.name} says Meow!`);
+};
+
+const myCat = new Cat(&quot;Whiskers&quot;, &quot;Siamese&quot;);
+myCat.speak(); // Output: Whiskers says Meow!</code></pre><p id="f83d3af1-af7a-4c95-8828-e819850125cf" class="">In this example, the <code>speak</code> method is overridden in the <code>Cat</code> subclass.</p><h2 id="7db270a4-b4eb-4368-b7ba-e573d416107a" class="">The <code>hasOwnProperty()</code> Method</h2><p id="108d7ff2-34fb-4e8f-a5de-0c0b3276643d" class="">The <code>hasOwnProperty()</code> method allows you to check if a property exists directly on an object (not inherited from the prototype).</p><pre id="4c13ec2f-63d4-4ef7-b20b-6ae7b202c94f" class="code code-wrap"><code>const myObject = {
+  prop1: &quot;Value 1&quot;,
+};
+
+console.log(myObject.hasOwnProperty(&quot;prop1&quot;)); // Output: true
+console.log(myObject.hasOwnProperty(&quot;toString&quot;)); // Output: false</code></pre><h2 id="9aacb3e9-42ee-4431-9f7b-769e28d3d4db" class="">Multiple Levels of Prototypal Inheritance</h2><p id="a334d4a4-df26-4b15-9e0d-4a428ae3c247" class="">Prototypal inheritance supports multiple levels, where objects inherit from objects that themselves inherit from other objects. This allows for complex inheritance hierarchies.</p><h2 id="a2c8110c-82a7-488a-bad0-8b0a27259e36" class="">Pitfalls and Considerations</h2><h2 id="9830cd34-7f96-4b25-97ef-95dede218dd2" class="">Real-World Examples</h2><h2 id="1d1c6c5f-29f3-4728-8e59-f8a3773762e7" class="">ES6 <code>class</code> Syntax and Prototypal Inheritance</h2><p id="5ecaed1f-5066-4bf5-a2a9-22afc7d8841e" class="">ES6 introduced a more user-friendly way to work with prototypes using class syntax.</p><pre id="47b94cb8-b63c-46dc-8f4c-d22b37c43677" class="code code-wrap"><code>class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(`${this.name} makes a sound.`);
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+
+  // You can add new methods specific to Dog
+  fetch() {
+    console.log(`${this.name} fetches a ball.`);
+  }
+}
+
+const myDog = new Dog(&quot;Buddy&quot;, &quot;Golden Retriever&quot;);
+myDog.speak(); // Output: Buddy makes a sound.
+myDog.fetch(); // Output: Buddy fetches a ball.</code></pre><h2 id="f644e534-d19f-47f4-92c4-6238f7d63adc" class="">Conclusion</h2><p id="aa845f5d-94a0-4f5c-9665-f7af8d43df85" class="">Prototypal inheritance is a key concept in JavaScript that allows objects to share properties and methods through their prototypes. Understanding how prototypes work is crucial for effective JavaScript programming.</p></div></article></body></html>
